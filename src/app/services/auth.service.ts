@@ -1,38 +1,35 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { jwtDecode } from 'jwt-decode';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private http = inject(HttpClient);
-  private baseUri = 'http://127.0.0.1/api/';
-  public secret?: string;
-  public decodeToken?: string;
+  private baseUri = 'http://127.0.0.1:8000/api';
 
-  login(email: string, password: string) {
-    return this.http.post(`${this.baseUri}login`, {
-      email,
-      password,
-    });
+  constructor(private http: HttpClient) {}
+
+  login(email: string, password: string): Observable<any> {
+    return this.http
+      .post<any>(`${this.baseUri}/login`, { email, password })
+      .pipe(
+        tap((response) => {
+          this.storeToken(response.access_token);
+        })
+      );
   }
 
-  subscribe() {}
-
-  setSecret(secret: string) {
-    this.secret = secret;
-    try {
-      this.decodeToken = jwtDecode(secret);
-      localStorage.setItem('token', secret);
-    } catch (error) {
-      this.logout();
-    }
+  private storeToken(token: string): void {
+    localStorage.setItem('auth_token', token);
   }
 
-  logout() {
-    this.secret = undefined;
-    this.decodeToken = undefined;
-    localStorage.removeItem('token');
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('auth_token');
   }
 }
