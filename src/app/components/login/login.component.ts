@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -11,16 +14,42 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  authService = inject(AuthService);
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
-  login: string = '';
-  password: string = '';
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+  });
 
-  connection() {
-    this.authService.login(this.login, this.password).subscribe((res: any) => {
-      if (res.secret) {
-        console.log('You are connected');
-      }
-    });
+  login() {
+    let email = this.loginForm.value.email;
+    let password = this.loginForm.value.password;
+    if (email && password) {
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          console.log(response);
+          if (response.type === 'success') {
+            localStorage.setItem('token', response.access_token);
+            this.toastr.success('You have successfully logged in');
+            this.router.navigate(['/']);
+            return true;
+          } else {
+            this.toastr.error('Invalid email or password');
+            return false;
+          }
+        },
+        error: (error) => {
+          this.toastr.error('Invalid email or password');
+          console.log(error);
+        },
+      });
+    }
   }
 }
