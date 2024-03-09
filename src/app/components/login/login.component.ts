@@ -5,7 +5,6 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -21,11 +20,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private toastr: ToastrService
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -44,16 +39,14 @@ export class LoginComponent {
           console.log(response);
           if (response.type === 'success') {
             localStorage.setItem('token', response.access_token);
-            this.toastr.success('You have successfully logged in');
+
             this.router.navigate(['/']);
             return true;
           } else {
-            this.toastr.error('Invalid email or password');
             return false;
           }
         },
         error: (error) => {
-          this.toastr.error('Invalid email or password');
           console.log(error);
         },
       });
