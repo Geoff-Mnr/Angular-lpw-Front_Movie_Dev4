@@ -12,24 +12,14 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http
-      .post<any>(`${this.baseUri}/login`, { email, password })
-      .pipe(
-        tap((response) => {
-          this.storeToken(response.access_token);
-        })
-      );
-  }
-
-  private storeToken(token: string): void {
-    localStorage.setItem('auth_token', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('auth_token');
+    return this.http.post(`${this.baseUri}/login`, { email, password }).pipe(
+      tap((res: any) => {
+        localStorage.setItem('token', res.token);
+      })
+    );
   }
 
   logout(): void {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('token');
   }
 }
