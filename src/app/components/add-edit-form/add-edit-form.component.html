@@ -1,1 +1,79 @@
-<p>add-edit-form works!</p>
+<div class="bg-white shadow-md pb-4">
+  <h2 class="bg-blue-950 rounded-tr-lg rounded-tl-lg text-white text-xl font-bold p-4 mb-5">Ajouter ou éditer un film</h2>
+  <!--Formulaire pour ajouter ou modifier un film-->
+  <!--ngModel permet de lier les données du formulaire avec le composant-->
+  <form>
+    <div class="mb-2 p-4">
+      <label for="nom" class="mb-3 block text-base font-medium">Titre</label>
+      <input
+        type="text"
+        name="nom"
+        [(ngModel)]="selectedMovie.title"
+        required
+        class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
+      />
+    </div>
+    <div class="mb-2 p-4">
+      <label for="annee" class="mb-3 block text-base font-medium">Année</label>
+      <input
+        type="number"
+        name="annee"
+        [(ngModel)]="selectedMovie.year"
+        required
+        class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
+      />
+    </div>
+    <div class="mb-2 p-4">
+      <label for="realisateur" class="mb-3 block text-base font-medium">Réalisateur</label>
+      <input
+        type="text"
+        name="realisateur"
+        [(ngModel)]="selectedMovie.director"
+        required
+        class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
+      />
+    </div>
+    <div class="mb-2 p-4">
+      <label for="synopsis" class="mb-3 block text-base font-medium">Synopsis</label>
+      <input
+        type="text"
+        name="synopsis"
+        [(ngModel)]="selectedMovie.synopsis"
+        required
+        class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
+      />
+    </div>
+    <div class="mb-2 p-4">
+      <label for="created_at" class="mb-3 block text-base font-medium">Créé à</label>
+      <input
+        type="text"
+        name="created_at"
+        [value]="formatDate(selectedMovie.created_at)"
+        required
+        class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
+        readonly
+      />
+    </div>
+    <div class="mb-2 p-4">
+      <label for="updated_at" class="mb-3 block text-base font-medium">Mis à jour à</label>
+      <input
+        type="text"
+        name="updated_at"
+        [value]="formatDate(selectedMovie.updated_at)"
+        required
+        class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
+        readonly
+      />
+    </div>
+    <div class="mt-10 mb-4 p-4">
+      <!--bouton pour ajouter un film-->
+      <button type="submit" (click)="addMovie()" class="hover:shadow-form rounded-md bg-blue-950 py-2 px-4 text-base font-semibold text-white hover:bg-blue-900 outline-none w-1/5 mx-auto mr-2">
+        Ajouter
+      </button>
+      <!--bouton pour modifier un film-->
+      <button type="submit" (click)="editMovie()" class="hover:shadow-form rounded-md bg-blue-950 py-2 px-4 text-base font-semibold text-white hover:bg-blue-900 outline-none w-1/5 mx-auto">
+        Modifier
+      </button>
+    </div>
+  </form>
+</div>
