@@ -3,14 +3,14 @@ import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie.interface';
 import { RouterLink } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AddEditComponent } from '../add-edit/add-edit.component';
+import { AddEditFormComponent } from '../add-edit-form/add-edit-form.component';
 import { Subscription } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 
 @Component({
   selector: "app-list-movies",
   standalone: true,
-  imports: [RouterLink, CommonModule, DatePipe],
+  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent],
   templateUrl: "./list-movies.component.html",
   styleUrl: "./list-movies.component.scss",
 })
