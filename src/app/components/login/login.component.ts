@@ -27,6 +27,16 @@ export class LoginComponent {
   });
 
   login() {
+    const token = localStorage.getItem("token");
+    const expireToken = localStorage.getItem("expireToken");
+    if (token && expireToken) {
+      const expire = new Date(expireToken);
+      if (expire > new Date()) {
+        this.toaster.info("Vous êtes déjà connecté.", "Information");
+        this.router.navigate(["/movies"]);
+        return;
+      }
+    }
     // Récupération des valeurs du formulaire
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;
@@ -46,7 +56,7 @@ export class LoginComponent {
             localStorage.setItem("expireToken", expireToken.toString());
             // Redirection vers la page d'accueil
             this.toaster.success("Connexion réussie", "Félicitations !");
-            this.router.navigate(["/"]);
+            this.router.navigate(["/movies"]);
           } else {
             // Affichage d'un message d'erreur
             console.error("Token non trouvé dans la réponse");
