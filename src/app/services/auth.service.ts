@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { User } from "../models/user.interface";
-import { verifyToken } from "../models/verifyToken";
 
 @Injectable({
   providedIn: "root",
@@ -20,6 +19,13 @@ export class AuthService {
         localStorage.setItem("token", res.access_token); //
       })
     );
+  }
+
+  getUser(): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    });
+    return this.http.get<User>(`${this.baseUri}/user`, { headers });
   }
 
   register(email: string, password: string): Observable<any> {
