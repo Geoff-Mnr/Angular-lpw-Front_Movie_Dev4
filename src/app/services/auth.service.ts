@@ -12,6 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  // Méthode de connexion
   login(email: string, password: string): Observable<any> {
     return this.http.post<User>(`${this.baseUri}/login`, { email, password }).pipe(
       tap((res: any) => {
@@ -21,6 +22,7 @@ export class AuthService {
     );
   }
 
+  // Méthode pour récupérer les informations de l'utilisateur
   getUser(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -28,10 +30,12 @@ export class AuthService {
     return this.http.get<User>(`${this.baseUri}/user`, { headers });
   }
 
+  // Méthode d'inscription
   register(email: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUri}/register`, { email, password });
   }
 
+  // Méthode de déconnexion
   logout(): void {
     localStorage.removeItem("token");
   }
