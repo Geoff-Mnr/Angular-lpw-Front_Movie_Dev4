@@ -40,7 +40,7 @@
 <button (click)="displayForm = true" class="bg-blue-950 text-white font-bold py-2 px-4 rounded mb-5 hover:shadow-lg hover:bg-blue-900">Ajouter un film</button>
 
 @if(displayForm) {
-<app-add-edit (addEmitter)="createMovie($event)" />
+<app-add-edit-form (addEmitter)="createMovie($event)" />
 } @else if(selectedMovie) {
-<app-add-edit (addEmitter)="createMovie($event)" (editEmitter)="updateMovie($event)" [selectedMovie]="selectedMovie" />
+<app-add-edit-form (addEmitter)="createMovie($event)" (editEmitter)="updateMovie($event)" [selectedMovie]="selectedMovie" />
 }
