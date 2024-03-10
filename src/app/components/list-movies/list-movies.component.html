@@ -1,1 +1,46 @@
-<p>list-movies works!</p>
+<h2 class="text-xl font-bold mb-5">Liste des films</h2>
+<table class="mb-9 bg-white shadow-md">
+  <thead>
+    <tr class="bg-blue-950 rounded text-white">
+      <th scope="col" class="p-4 rounded-tl-lg">Titre</th>
+      <th scope="col" class="p-4">Année</th>
+      <th scope="col" class="p-4">Réalisateur</th>
+      <th scope="col" class="p-4">Synopsis</th>
+      <th scope="col" class="p-4">Ajouté à</th>
+      <th scope="col" class="p-4">Créé à</th>
+      <th scope="col" class="rounded-tr-lg"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <!--boucle pour récupérer les films via son id-->
+    @for (movie of movies; track movie){
+    <tr class="border-b border-gray-200">
+      <td class="px-4 py-3">{{ movie.title }}</td>
+      <td class="px-4 py-3">{{ movie.year }}</td>
+      <td class="px-4 py-3">{{ movie.director }}</td>
+      <td class="px-4 py-3">{{ movie.synopsis }}</td>
+      <td class="px-4 py-3">
+        {{ movie.created_at | date : "dd/MM/yyyy HH:mm" }}
+      </td>
+      <td class="px-4 py-3">
+        {{ movie.updated_at | date : "dd/MM/yyyy HH:mm" }}
+      </td>
+      <td class="px-4 py-3 flex">
+        <!--bouton pour modifier un film-->
+        <button (click)="selectMovie(movie)" class="bg-green-800 text-white font-bold py-2 px-4 rounded hover:shadow-lg hover:bg-green-700">Modifier</button>
+        <!--bouton pour supprimer un film-->
+        <button (click)="deleteMovie(movie)" class="bg-red-900 text-white font-bold py-2 px-4 rounded ml-2 hover:shadow-lg hover:bg-red-700">Supprimer</button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
+
+<!--bouton pour ajouter un film-->
+<button (click)="displayForm = true" class="bg-blue-950 text-white font-bold py-2 px-4 rounded mb-5 hover:shadow-lg hover:bg-blue-900">Ajouter un film</button>
+
+@if(displayForm) {
+<app-add-edit (addEmitter)="createMovie($event)" />
+} @else if(selectedMovie) {
+<app-add-edit (addEmitter)="createMovie($event)" (editEmitter)="updateMovie($event)" [selectedMovie]="selectedMovie" />
+}
