@@ -65,12 +65,16 @@
         readonly
       />
     </div>
+
     <div class="mt-10 mb-4 p-4">
-      <!--bouton pour ajouter un film-->
+      <!-- Bouton pour ajouter un film, affiché seulement si showAddButton() est vrai et showEditButton() est faux -->
+
       <button type="submit" (click)="addMovie()" class="hover:shadow-form rounded-md bg-blue-950 py-2 px-4 text-base font-semibold text-white hover:bg-blue-900 outline-none w-1/5 mx-auto mr-2">
         Ajouter
       </button>
-      <!--bouton pour modifier un film-->
+
+      <!-- Bouton pour modifier un film, affiché seulement si showEditButton() est vrai -->
+
       <button type="submit" (click)="editMovie()" class="hover:shadow-form rounded-md bg-blue-950 py-2 px-4 text-base font-semibold text-white hover:bg-blue-900 outline-none w-1/5 mx-auto">
         Modifier
       </button>

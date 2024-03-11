@@ -5,6 +5,7 @@ import { RouterLink } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { AddEditFormComponent } from "../add-edit-form/add-edit-form.component";
 import { Subscription } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 import { OnDestroy } from "@angular/core";
 
 @Component({
@@ -16,8 +17,11 @@ import { OnDestroy } from "@angular/core";
 })
 export class ListMoviesComponent {
   service = inject(MovieService);
+
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
+
+  toaster = inject(ToastrService);
 
   movies: Movie[] = [];
 
@@ -27,14 +31,11 @@ export class ListMoviesComponent {
     this.getAllMovies();
   }
 
+  /*Methode pour afficher le formulaire d'ajout*/
   getAllMovies() {
-    this.subDelete = this.service.getMovies().subscribe({
-      next: (response) => {
-        this.movies = response;
-      },
-      error: (error) => {
-        console.error(error);
-      },
+    this.subDelete = this.service.list().subscribe((result: any) => {
+      console.log(result);
+      this.movies = result.data;
     });
   }
 
@@ -44,27 +45,31 @@ export class ListMoviesComponent {
   }
 
   updateMovie(item: Movie) {
-    this.subDelete = this.service.updateMovie(item).subscribe({
+    this.subDelete = this.service.update(item.id, item).subscribe({
       next: () => {
+        this.toaster.success("Film modifié avec succès", "Félicitations !");
         console.log("Movie updated successfully");
         this.getAllMovies();
         this.closeEditForm();
       },
       error: (error) => {
+        this.toaster.error("Erreur lors de la modification du film", "Erreur");
         console.error("Error updating movie:", error);
       },
     });
   }
 
   createMovie(item: Movie) {
-    this.subDelete = this.service.addMovie(item).subscribe({
+    this.subDelete = this.service.create(item).subscribe({
       next: () => {
+        this.toaster.success("Film ajouté avec succès", "Félicitations !");
         console.log("Movie created successfully");
         this.getAllMovies();
         this.closeAddForm();
         this.closeEditForm();
       },
       error: (error) => {
+        this.toaster.error("Erreur lors de la création du film", "Erreur");
         console.error("Error creating movie:", error);
       },
     });
@@ -72,12 +77,14 @@ export class ListMoviesComponent {
 
   // Méthode pour supprimer un film
   deleteMovie(item: Movie) {
-    this.subDelete = this.service.deleteMovie(item.id).subscribe({
+    this.subDelete = this.service.delete(item.id).subscribe({
       next: () => {
+        this.toaster.success("Film supprimé avec succès", "Félicitations !");
         console.log("Movie deleted successfully'");
         this.getAllMovies();
       },
       error: (error) => {
+        this.toaster.error("Erreur lors de la suppression du film", "Erreur");
         console.error("Error deleting movie:", error);
       },
     });

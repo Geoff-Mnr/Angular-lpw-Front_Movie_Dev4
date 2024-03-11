@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Movie } from "../../models/movie.interface";
 import { FormsModule } from "@angular/forms";
-import { CommonModule, DatePipe, formatDate } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Component({
   selector: "app-add-edit-form",
@@ -9,10 +10,11 @@ import { CommonModule, DatePipe, formatDate } from "@angular/common";
   imports: [FormsModule, CommonModule, DatePipe],
   templateUrl: "./add-edit-form.component.html",
   styleUrl: "./add-edit-form.component.scss",
+  providers: [DatePipe],
 })
 export class AddEditFormComponent {
-  @Output() addEmitter = new EventEmitter<Movie>();
-  @Output() editEmitter = new EventEmitter<Movie>();
+  @Output() addEmitter = new EventEmitter();
+  @Output() editEmitter = new EventEmitter();
 
   @Input() selectedMovie: Movie = {
     id: 0,
@@ -27,22 +29,24 @@ export class AddEditFormComponent {
   constructor(private datePipe: DatePipe) {}
 
   formatDate(date: Date) {
-    return this.datePipe.transform(date, "yyyy-MM-dd");
+    return this.datePipe.transform(date, "HH:mm le dd-MM-yyyy");
   }
 
+  /* réinitialise le formulaire */
   ngOnInit() {
     this.selectedMovie = this.clone(this.selectedMovie);
   }
 
+  /* permet de copier un objet */
   private clone(value: any) {
     return JSON.parse(JSON.stringify(value));
   }
 
   addMovie() {
-    const toSend = this.clone(this.selectedMovie);
-    this.addEmitter.emit(toSend);
+    this.addEmitter.emit(this.selectedMovie);
   }
 
+  /* permet d'ouvrir un formulaire pour modifier un film */
   editMovie() {
     const toSend = this.clone(this.selectedMovie);
     this.editEmitter.emit(toSend);
