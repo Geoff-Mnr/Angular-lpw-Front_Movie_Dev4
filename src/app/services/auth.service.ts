@@ -12,6 +12,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem("token");
+    return !!token;
+  }
+
   // Méthode de connexion
   login(email: string, password: string): Observable<any> {
     return this.http.post<User>(`${this.baseUri}/login`, { email, password }).pipe(
