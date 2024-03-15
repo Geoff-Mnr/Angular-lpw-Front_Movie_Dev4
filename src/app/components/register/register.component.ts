@@ -22,8 +22,8 @@ export class RegisterComponent {
 
   registerForm = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
-    password: new FormControl("", [Validators.required, Validators.minLength(8), nospaceValidator]),
-    confirm_password: new FormControl("", [Validators.required, Validators.minLength(8), nospaceValidator]),
+    password: new FormControl("", [Validators.required, Validators.minLength(8), nospaceValidator()]),
+    confirm_password: new FormControl("", [Validators.required, Validators.minLength(8), nospaceValidator()]),
   });
 
   register() {
