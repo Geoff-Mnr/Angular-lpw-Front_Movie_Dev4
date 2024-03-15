@@ -2,15 +2,16 @@ import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
-import { Router, RouterOutlet } from "@angular/router";
+import { Router, RouterOutlet, RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
+import { RegisterComponent } from "../register/register.component";
 
 @Component({
   selector: "app-login",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterOutlet, HttpClientModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterOutlet, HttpClientModule, RegisterComponent, RouterModule],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.scss",
 })

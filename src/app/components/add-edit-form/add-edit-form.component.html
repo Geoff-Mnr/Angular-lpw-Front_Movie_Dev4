@@ -1,47 +1,70 @@
-<div class="bg-white shadow-md pb-4">
-  <h2 class="bg-blue-950 rounded-tr-lg rounded-tl-lg text-white text-xl font-bold p-4 mb-5">Ajouter ou éditer un film</h2>
+<div class="w-full flex flex-col items-center">
   <!--Formulaire pour ajouter ou modifier un film-->
-  <!--ngModel permet de lier les données du formulaire avec le composant-->
-  <form>
+  <form [formGroup]="form" class="w-1/2 bg-white shadow-md mb-10">
+    <h2 class="bg-blue-950 rounded-tr-lg rounded-tl-lg text-white text-xl font-bold p-4 mb-5">Ajouter ou éditer un film</h2>
     <div class="mb-2 p-4">
       <label for="nom" class="mb-3 block text-base font-medium">Titre</label>
       <input
         type="text"
         name="nom"
         [(ngModel)]="selectedMovie.title"
+        formControlName="title"
         required
         class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
       />
+      <br />
+      @if(form.controls.title.errors && form.controls.title.touched) {
+      <div class="text-red-700">Champ requis</div>
+      }
     </div>
     <div class="mb-2 p-4">
       <label for="annee" class="mb-3 block text-base font-medium">Année</label>
       <input
         type="number"
         name="annee"
+        formControlName="year"
         [(ngModel)]="selectedMovie.year"
         required
         class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
       />
+      <br />
+      @if (form.controls.year.touched) { @if (form.controls.year.errors?.['required']) {
+      <div class="text-red-700">Champ requis</div>
+      } @if (form.controls.year.errors?.['min'] && form.controls.year.errors) {
+      <div class="text-red-700">Année doit être supérieure à 1895</div>
+      } }
     </div>
     <div class="mb-2 p-4">
       <label for="realisateur" class="mb-3 block text-base font-medium">Réalisateur</label>
       <input
         type="text"
         name="realisateur"
+        formControlName="director"
         [(ngModel)]="selectedMovie.director"
         required
         class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
       />
+      <br />
+      @if (form.controls.director.errors && form.controls.director.touched) {
+      <div class="text-red-700">Champ requis</div>
+      }
     </div>
     <div class="mb-2 p-4">
       <label for="synopsis" class="mb-3 block text-base font-medium">Synopsis</label>
-      <input
+      <textarea
         type="text"
         name="synopsis"
+        formControlName="synopsis"
         [(ngModel)]="selectedMovie.synopsis"
         required
         class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
-      />
+      ></textarea>
+      <br />
+      @if (form.controls.synopsis.touched) { @if (form.controls.synopsis.errors?.['required']) {
+      <div class="text-red-700">Champ requis</div>
+      } @if (form.controls.synopsis.errors?.['minlength']) {
+      <div class="text-red-700">Le synopsis doit contenir au moins 5 caractères</div>
+      } }
     </div>
     <div class="mb-2 p-4">
       <label for="created_at" class="mb-3 block text-base font-medium">Créé à</label>
@@ -66,18 +89,34 @@
       />
     </div>
 
-    <div class="mt-10 mb-4 p-4">
-      <!-- Bouton pour ajouter un film, affiché seulement si showAddButton() est vrai et showEditButton() est faux -->
-
-      <button type="submit" (click)="addMovie()" class="hover:shadow-form rounded-md bg-blue-950 py-2 px-4 text-base font-semibold text-white hover:bg-blue-900 outline-none w-1/5 mx-auto mr-2">
-        Ajouter
-      </button>
-
-      <!-- Bouton pour modifier un film, affiché seulement si showEditButton() est vrai -->
-
-      <button type="submit" (click)="editMovie()" class="hover:shadow-form rounded-md bg-blue-950 py-2 px-4 text-base font-semibold text-white hover:bg-blue-900 outline-none w-1/5 mx-auto">
+    <!--Bouton pour ajouter ou modifier un film-->
+    <div class="p-4 flex justify-start space-x-4">
+      @if (selectedMovie.id){
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        [class.bg-blue-950]="!form.invalid"
+        [class.bg-blue-100]="form.invalid"
+        (click)="editMovie()"
+        class="hover:shadow-form rounded-md bg-blue-950 py-2 px-10 text-base font-semibold text-white hover:bg-blue-900 outline-none"
+      >
         Modifier
       </button>
+      } @else {
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        [class.bg-blue-950]="!form.invalid"
+        [class.bg-blue-100]="form.invalid"
+        (click)="addMovie()"
+        class="hover:shadow-form rounded-md bg-blue-950 py-2 px-10 text-base font-semibold text-white hover:bg-blue-900 outline-none"
+      >
+        Ajouter
+      </button>
+      }
+      <button (click)="closeForm()" class="hover:shadow-form rounded-md bg-red-600 py-2 px-10 text-base font-semibold text-white hover:bg-red-800 outline-none">Annuler</button>
     </div>
+
+    <!--Bouton pour annuler l'ajout ou la modification d'un film-->
   </form>
 </div>

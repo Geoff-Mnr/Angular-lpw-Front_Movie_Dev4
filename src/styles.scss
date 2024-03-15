@@ -5,3 +5,15 @@
 
 @import 'ngx-toastr/toastr';
 
+
+
+#toast-container > .toast-success {
+  background-image: none;
+  background-color: #166534;
+  color: white;
+}
+#toast-container > .toast-error {
+  background-image: none;
+  background-color: #7f1d1d;
+  color: white;
+}

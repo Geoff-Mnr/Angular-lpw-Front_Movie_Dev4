@@ -1,13 +1,12 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, inject } from "@angular/core";
 import { Movie } from "../../models/movie.interface";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule, DatePipe } from "@angular/common";
-import { Pipe, PipeTransform } from "@angular/core";
 
 @Component({
   selector: "app-add-edit-form",
   standalone: true,
-  imports: [FormsModule, CommonModule, DatePipe],
+  imports: [FormsModule, CommonModule, DatePipe, ReactiveFormsModule],
   templateUrl: "./add-edit-form.component.html",
   styleUrl: "./add-edit-form.component.scss",
   providers: [DatePipe],
@@ -15,6 +14,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class AddEditFormComponent {
   @Output() addEmitter = new EventEmitter();
   @Output() editEmitter = new EventEmitter();
+  @Output() closeEmitter = new EventEmitter();
 
   @Input() selectedMovie: Movie = {
     id: 0,
@@ -25,6 +25,15 @@ export class AddEditFormComponent {
     created_at: new Date(),
     updated_at: new Date(),
   };
+
+  fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    title: ["", Validators.required],
+    year: ["", [Validators.required, Validators.min(1896)]],
+    director: ["", Validators.required],
+    synopsis: ["", [Validators.required, Validators.minLength(5)]],
+  });
 
   constructor(private datePipe: DatePipe) {}
 
@@ -46,9 +55,15 @@ export class AddEditFormComponent {
     this.addEmitter.emit(this.selectedMovie);
   }
 
+  closeForm() {
+    this.closeEmitter.emit();
+  }
+
   /* permet d'ouvrir un formulaire pour modifier un film */
   editMovie() {
     const toSend = this.clone(this.selectedMovie);
     this.editEmitter.emit(toSend);
   }
+
+  /* permet de fermer le formulaire */
 }

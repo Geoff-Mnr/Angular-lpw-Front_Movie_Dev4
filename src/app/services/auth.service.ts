@@ -36,8 +36,12 @@ export class AuthService {
   }
 
   // Méthode d'inscription
-  register(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.baseUri}/register`, { email, password });
+  register(email: string, password: string, confirm_password: string): Observable<any> {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirm_password", confirm_password);
+    return this.http.post<User>(`${this.baseUri}/register`, formData);
   }
 
   // Méthode de déconnexion

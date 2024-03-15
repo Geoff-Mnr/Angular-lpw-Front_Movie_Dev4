@@ -6,17 +6,23 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { AddEditFormComponent } from "../add-edit-form/add-edit-form.component";
 import { Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "../../services/auth.service";
+import { Router, RouterOutlet } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
+
 import { OnDestroy } from "@angular/core";
 
 @Component({
   selector: "app-list-movies",
   standalone: true,
-  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent],
+  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent, RouterOutlet, HttpClientModule],
   templateUrl: "./list-movies.component.html",
   styleUrl: "./list-movies.component.scss",
 })
 export class ListMoviesComponent {
   service = inject(MovieService);
+  authService = inject(AuthService);
+  router = inject(Router);
 
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
@@ -39,8 +45,8 @@ export class ListMoviesComponent {
     });
   }
 
-  selectMovie(item: Movie) {
-    this.selectedMovie = item;
+  selectMovie(movie: Movie) {
+    this.selectedMovie = movie;
     console.log(this.selectedMovie);
   }
 
@@ -90,6 +96,12 @@ export class ListMoviesComponent {
     });
   }
 
+  logout() {
+    this.authService.logout();
+    this.toaster.info("Déconnexion réussie", "Information");
+    this.router.navigate(["/login"]);
+  }
+
   private closeAddForm() {
     this.displayForm = false;
   }
@@ -97,6 +109,12 @@ export class ListMoviesComponent {
   /*Methode pour fermer le formulaire de modification*/
   private closeEditForm() {
     this.selectedMovie = undefined;
+  }
+
+  cancel() {
+    this.closeAddForm();
+    this.closeEditForm();
+    this.toaster.info("Opération annulée", "Information");
   }
 
   ngOnDestroy() {
