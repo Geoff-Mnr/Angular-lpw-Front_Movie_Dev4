@@ -1,62 +1,64 @@
-<div class="bg-slate-200 flex h-screen relative flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm z-10 bg-black p-12 rounded-md">
+<div class="flex bg-black h-screen relative flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm z-10 bg-slate-200 p-12 rounded-md shadow-lg">
     <form class="space-y-6" [formGroup]="registerForm">
       <div>
-        <h2 class="text-3xl font-bold text-slate-200">Inscrivez-vous</h2>
+        <h2 class="text-3xl font-bold text-black">Inscrivez-vous</h2>
       </div>
       <div>
-        <label for="email" class="block text-sm font-medium leading-6 text-slate-200">E-mail</label>
-        <div class="mt-2">
-          <input
-            type="email"
-            formControlName="email"
-            id="email"
-            name="email"
-            placeholder="E-mail"
-            required
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset p-2 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
-          />
-          @if(registerForm.controls.email.invalid && registerForm.controls.email.touched){
-          <div class="text-red-500 text-xs mt-1">L'adresse e-mail n'est pas valide</div>
-          }
-        </div>
-      </div>
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm font-medium leading-6 text-slate-200">Mot de passe</label>
+        <div>
+          <label for="email" class="block text-sm font-medium leading-6 text-black">E-mail</label>
+          <div class="mt-2">
+            <input
+              type="email"
+              formControlName="email"
+              id="email"
+              name="email"
+              placeholder="E-mail"
+              required
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset p-2 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
+            />
+            @if(registerForm.controls.email.invalid && registerForm.controls.email.touched){
+            <div class="text-red-500 text-xs mt-1">L'adresse e-mail n'est pas valide</div>
+            }
+          </div>
         </div>
         <div class="mt-2">
-          <input
-            type="password"
-            formControlName="password"
-            id="password"
-            name="password"
-            placeholder="Mot de passe"
-            required
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm p-2 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
-          />
-          @if(registerForm.controls.password.invalid && registerForm.controls.password.touched){
-          <div class="text-red-500 text-xs mt-1">Le mot de passe n'est pas valide</div>
-          }
-        </div>
-      </div>
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="confirm_password" class="block text-sm font-medium leading-6 text-slate-200">Confirmation du mot de passe</label>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm font-medium leading-6 text-black">Mot de passe</label>
+          </div>
+          <div class="mt-2">
+            <input
+              type="password"
+              formControlName="password"
+              id="password"
+              name="password"
+              placeholder="Mot de passe"
+              required
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm p-2 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
+            />
+            @if(registerForm.controls.password.invalid && registerForm.controls.password.touched){
+            <div class="text-red-500 text-xs mt-1">Le mot de passe n'est pas valide</div>
+            }
+          </div>
         </div>
         <div class="mt-2">
-          <input
-            type="password"
-            formControlName="confirm_password"
-            id="confirm_password"
-            name="confirm_password"
-            placeholder="Confirmation du mot de passe"
-            required
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm p-2 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
-          />
-          @if(registerForm.controls.confirm_password.invalid && registerForm.controls.confirm_password.touched){
-          <div class="text-red-500 text-xs mt-1">Les mots de passe ne correspondent pas</div>
-          }
+          <div class="flex items-center justify-between">
+            <label for="confirm_password" class="block text-sm font-medium leading-6 text-black">Confirmation du mot de passe</label>
+          </div>
+          <div class="mt-2">
+            <input
+              type="password"
+              formControlName="confirm_password"
+              id="confirm_password"
+              name="confirm_password"
+              placeholder="Confirmation du mot de passe"
+              required
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm p-2 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
+            />
+            @if(registerForm.controls.confirm_password.invalid && registerForm.controls.confirm_password.touched){
+            <div class="text-red-500 text-xs mt-1">Les mots de passe ne correspondent pas</div>
+            }
+          </div>
         </div>
       </div>
       <div>
@@ -64,7 +66,7 @@
           type="submit"
           (click)="register()"
           [disabled]="registerForm.invalid"
-          class="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-slate-200 shadow-sm hover:bg-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          class="mt-10 flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-slate-200 shadow-sm hover:bg-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
         >
           Inscrivez-vous
         </button>

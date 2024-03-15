@@ -16,7 +16,10 @@ import { RegisterComponent } from "../register/register.component";
   styleUrl: "./login.component.scss",
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  // Injection du service Router
+  router = inject(Router);
+  // Injection du service AuthService
+  authService = inject(AuthService);
 
   // Injection du service ToastrService
   toaster = inject(ToastrService);
@@ -27,17 +30,29 @@ export class LoginComponent {
     password: new FormControl("", [Validators.required, Validators.minLength(8)]),
   });
 
+  // Méthode appelée lors de la soumission du formulaire
   login() {
     const token = localStorage.getItem("token");
     const expireToken = localStorage.getItem("expireToken");
     if (token && expireToken) {
-      const expire = new Date(expireToken);
-      if (expire > new Date()) {
-        this.toaster.info("Vous êtes déjà connecté.", "Information");
-        this.router.navigate(["/movies"]);
-        return;
+      const expireDate = new Date(expireToken);
+      const currentDate = new Date();
+      const maxTokenLife = 12 * 60 * 60 * 1000;
+      if (expireDate > currentDate) {
+        const timeLeft = expireDate.getTime() - currentDate.getTime();
+
+        if (timeLeft <= maxTokenLife) {
+          this.toaster.info("Vous êtes déjà connecté.", "Information");
+          this.router.navigate(["/movies"]);
+          return;
+        } else {
+          this.toaster.error("Votre session est expirée. Veuillez vous reconnecter.", "Session expirée");
+        }
+      } else {
+        this.toaster.error("Votre session est expirée. Veuillez vous reconnecter.", "Session expirée");
       }
     }
+
     // Récupération des valeurs du formulaire
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;

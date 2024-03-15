@@ -12,6 +12,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  isLogggedIn = true;
+
   isAuthenticated(): boolean {
     const token = localStorage.getItem("token");
     return !!token;
