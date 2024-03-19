@@ -49,5 +49,6 @@ export class AuthService {
   // Méthode de déconnexion
   logout(): void {
     localStorage.removeItem("token");
+    localStorage.removeItem("expireToken");
   }
 }

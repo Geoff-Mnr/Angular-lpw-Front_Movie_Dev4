@@ -4,13 +4,11 @@ import { Movie } from "../../models/movie.interface";
 import { RouterLink } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { AddEditFormComponent } from "../add-edit-form/add-edit-form.component";
-import { Subscription } from "rxjs";
+import { Subscription, first } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../services/auth.service";
 import { Router, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
-
-import { OnDestroy } from "@angular/core";
 
 @Component({
   selector: "app-list-movies",
@@ -34,6 +32,10 @@ export class ListMoviesComponent {
   displayForm = false;
 
   ngOnInit() {
+    if (localStorage.getItem("firstLogin") == "true") {
+      localStorage.setItem("firstLogin", "false");
+      window.location.reload();
+    }
     this.getAllMovies();
   }
 

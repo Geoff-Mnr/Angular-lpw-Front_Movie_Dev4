@@ -7,6 +7,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { RegisterComponent } from "../register/register.component";
+import { first } from "rxjs";
 
 @Component({
   selector: "app-login",
@@ -63,7 +64,7 @@ export class LoginComponent {
         next: (response) => {
           console.log("Réponse de l'API:", response);
           if (response.data && response.data.access_token) {
-            // Token expire dans 12 heures
+            // Création de la date d'expiration du token
             const expireToken = new Date();
             expireToken.setHours(expireToken.getHours() + 12);
             // Enregistrement du token dans le localStorage
@@ -71,6 +72,7 @@ export class LoginComponent {
             // Enregistrement de la date d'expiration du token dans le localStorage
             localStorage.setItem("expireToken", expireToken.toString());
             // Redirection vers la page d'accueil
+            localStorage.setItem("firstLogin", "true");
             this.toaster.success("Connexion réussie", "Félicitations !");
             this.router.navigate(["/movies"]);
           } else {

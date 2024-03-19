@@ -41,9 +41,9 @@
         }
       </tbody>
     </table>
-
-    <button (click)="displayForm = true" class="bg-blue-950 text-white font-bold py-2 px-4 rounded mb-5 hover:shadow-lg hover:bg-blue-900" data-modal-toggle="default-modal">Ajouter un film</button>
-
+    <div class="flex justify-end w-full">
+      <button (click)="displayForm = true" class="bg-blue-950 text-white font-bold py-2 px-4 rounded mb-5 hover:shadow-lg hover:bg-blue-900" data-modal-toggle="default-modal">Ajouter un film</button>
+    </div>
     @if(displayForm) {
     <app-add-edit-form (addEmitter)="createMovie($event)" (closeEmitter)="cancel()" />
     } @else if(selectedMovie) {
