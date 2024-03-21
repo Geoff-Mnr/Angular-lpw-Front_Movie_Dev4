@@ -7,7 +7,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { RegisterComponent } from "../register/register.component";
-import { first } from "rxjs";
 
 @Component({
   selector: "app-login",

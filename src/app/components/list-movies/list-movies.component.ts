@@ -9,6 +9,7 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../services/auth.service";
 import { Router, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
+import { OnDestroy } from "@angular/core";
 
 @Component({
   selector: "app-list-movies",
@@ -17,7 +18,7 @@ import { HttpClientModule } from "@angular/common/http";
   templateUrl: "./list-movies.component.html",
   styleUrl: "./list-movies.component.scss",
 })
-export class ListMoviesComponent {
+export class ListMoviesComponent implements OnDestroy {
   service = inject(MovieService);
   authService = inject(AuthService);
   router = inject(Router);
@@ -101,6 +102,7 @@ export class ListMoviesComponent {
   logout() {
     this.authService.logout();
     this.toaster.info("Déconnexion réussie", "Information");
+    this.movies = [];
     this.router.navigate(["/login"]);
   }
 
@@ -119,7 +121,7 @@ export class ListMoviesComponent {
     this.toaster.info("Opération annulée", "Information");
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subDelete) {
       this.subDelete.unsubscribe();
     }
