@@ -71,7 +71,6 @@ export class LoginComponent {
             // Enregistrement de la date d'expiration du token dans le localStorage
             localStorage.setItem("expireToken", expireToken.toString());
             // Redirection vers la page d'accueil
-            localStorage.setItem("firstLogin", "true");
             this.toaster.success("Connexion réussie", "Félicitations !");
             this.router.navigate(["/movies"]);
           } else {

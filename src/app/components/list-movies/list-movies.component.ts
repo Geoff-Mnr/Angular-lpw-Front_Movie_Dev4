@@ -33,10 +33,6 @@ export class ListMoviesComponent implements OnDestroy {
   displayForm = false;
 
   ngOnInit() {
-    // if (localStorage.getItem("firstLogin") == "true") {
-    //   localStorage.setItem("firstLogin", "false");
-    //   window.location.reload();
-    // }
     this.getAllMovies();
   }
 
@@ -47,12 +43,12 @@ export class ListMoviesComponent implements OnDestroy {
       this.movies = result.data;
     });
   }
-
+  // Méthode pour sélectionner un film
   selectMovie(movie: Movie) {
     this.selectedMovie = movie;
     console.log(this.selectedMovie);
   }
-
+  // Méthode pour mettre à jour un film
   updateMovie(item: Movie) {
     this.subDelete = this.service.update(item.id, item).subscribe({
       next: () => {
@@ -67,7 +63,7 @@ export class ListMoviesComponent implements OnDestroy {
       },
     });
   }
-
+  // Méthode pour créer un film
   createMovie(item: Movie) {
     this.subDelete = this.service.create(item).subscribe({
       next: () => {
@@ -99,10 +95,14 @@ export class ListMoviesComponent implements OnDestroy {
     });
   }
 
+  // Méthode pour déconnecter l'utilisateur
   logout() {
     this.authService.logout();
     this.toaster.info("Déconnexion réussie", "Information");
     this.router.navigate(["/login"]);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   }
 
   private closeAddForm() {
@@ -114,12 +114,14 @@ export class ListMoviesComponent implements OnDestroy {
     this.selectedMovie = undefined;
   }
 
+  // Méthode pour annuler une opération
   cancel() {
     this.closeAddForm();
     this.closeEditForm();
     this.toaster.info("Opération annulée", "Information");
   }
 
+  // Méthode pour détruire le composant
   ngOnDestroy(): void {
     if (this.subDelete) {
       this.subDelete.unsubscribe();
