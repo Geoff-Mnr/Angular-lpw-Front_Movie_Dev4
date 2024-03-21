@@ -33,10 +33,10 @@ export class ListMoviesComponent implements OnDestroy {
   displayForm = false;
 
   ngOnInit() {
-    if (localStorage.getItem("firstLogin") == "true") {
-      localStorage.setItem("firstLogin", "false");
-      window.location.reload();
-    }
+    // if (localStorage.getItem("firstLogin") == "true") {
+    //   localStorage.setItem("firstLogin", "false");
+    //   window.location.reload();
+    // }
     this.getAllMovies();
   }
 
@@ -102,7 +102,6 @@ export class ListMoviesComponent implements OnDestroy {
   logout() {
     this.authService.logout();
     this.toaster.info("Déconnexion réussie", "Information");
-    this.movies = [];
     this.router.navigate(["/login"]);
   }
 

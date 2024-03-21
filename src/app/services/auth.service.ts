@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { User } from "../models/user.interface";
+import { catchError } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -25,6 +26,10 @@ export class AuthService {
       tap((res: any) => {
         console.log(res.access_token);
         localStorage.setItem("token", res.access_token); //
+      }),
+      catchError((err) => {
+        console.log(err);
+        throw err;
       })
     );
   }
