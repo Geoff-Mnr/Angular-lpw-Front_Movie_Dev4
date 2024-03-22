@@ -38,20 +38,17 @@ export class LoginComponent {
       this.authService.login(email, password).subscribe({
         next: (res) => {
           this.authService.setToken(res.data.access_token);
-          console.log("Login response:", res);
           this.authService.getProfile().subscribe({
             next: (userRes) => {
               this.router.navigate(["/movies"]);
               this.toaster.success("Connexion réussie!");
             },
             error: (err) => {
-              console.error("Erreur lors de la récupération du profil utilisateur", err);
               this.toaster.error("Erreur lors de la récupération du profil.");
             },
           });
         },
         error: (err) => {
-          console.error("Erreur lors de la connexion", err);
           this.toaster.error("Erreur lors de la connexion.");
         },
       });
