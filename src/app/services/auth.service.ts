@@ -20,7 +20,9 @@ export class AuthService {
   }
 
   setToken(token: string): void {
+    const tokenReivedAt = new Date().toISOString();
     localStorage.setItem("token", token);
+    localStorage.setItem("tokenReceivedAt", tokenReivedAt);
   }
 
   // Méthode de connexion
@@ -46,6 +48,7 @@ export class AuthService {
   // Méthode de déconnexion
   logout(): void {
     localStorage.removeItem("token");
+    localStorage.removeItem("tokenReceivedAt");
     localStorage.removeItem("user");
   }
 }

@@ -4,7 +4,7 @@ import { routes } from "./app.routes";
 import { HttpClientModule } from "@angular/common/http";
 import { provideToastr } from "ngx-toastr";
 import { provideAnimations } from "@angular/platform-browser/animations";
-import { authInterceptor } from "./auth-interceptor";
+import { authInterceptor } from "./interceptors/auth-interceptor";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 
 export const appConfig: ApplicationConfig = {

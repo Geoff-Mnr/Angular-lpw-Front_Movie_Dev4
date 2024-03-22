@@ -64,6 +64,4 @@ export class AddEditFormComponent {
     const toSend = this.clone(this.selectedMovie);
     this.editEmitter.emit(toSend);
   }
-
-  /* permet de fermer le formulaire */
 }

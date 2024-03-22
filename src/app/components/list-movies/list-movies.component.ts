@@ -39,7 +39,6 @@ export class ListMoviesComponent implements OnDestroy {
   /*Methode pour afficher le formulaire d'ajout*/
   getAllMovies() {
     this.subDelete = this.service.list().subscribe((result: any) => {
-      console.log(result);
       this.movies = result.data;
     });
   }
@@ -101,9 +100,6 @@ export class ListMoviesComponent implements OnDestroy {
     this.toaster.info("Déconnexion réussie", "Information");
     this.router.navigate(["/login"]);
     console.log("User logged out successfully");
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 1500);
   }
 
   private closeAddForm() {
