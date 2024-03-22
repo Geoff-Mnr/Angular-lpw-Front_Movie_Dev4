@@ -1,9 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
 import { User } from "../models/user.interface";
-import { catchError } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -21,25 +19,18 @@ export class AuthService {
     return !!token;
   }
 
-  // Méthode de connexion
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<User>(`${this.baseUri}/login`, { email, password }).pipe(
-      tap((res: any) => {
-        console.log(res.access_token);
-        localStorage.setItem("token", res.access_token); //
-      }),
-      catchError((err) => {
-        console.log(err);
-        throw err;
-      })
-    );
+  setToken(token: string): void {
+    localStorage.setItem("token", token);
   }
 
-  // Méthode pour récupérer les informations de l'utilisateur
-  getUser(): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    });
+  // Méthode de connexion
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<User>(`${this.baseUri}/login`, { email, password });
+  }
+
+  getProfile(): Observable<any> {
+    const token = localStorage.getItem("token");
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
     return this.http.get<User>(`${this.baseUri}/user`, { headers });
   }
 
@@ -55,6 +46,6 @@ export class AuthService {
   // Méthode de déconnexion
   logout(): void {
     localStorage.removeItem("token");
-    localStorage.removeItem("expireToken");
+    localStorage.removeItem("user");
   }
 }

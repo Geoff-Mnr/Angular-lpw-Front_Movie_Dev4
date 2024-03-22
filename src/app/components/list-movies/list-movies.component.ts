@@ -100,9 +100,10 @@ export class ListMoviesComponent implements OnDestroy {
     this.authService.logout();
     this.toaster.info("Déconnexion réussie", "Information");
     this.router.navigate(["/login"]);
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+    console.log("User logged out successfully");
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 1500);
   }
 
   private closeAddForm() {
