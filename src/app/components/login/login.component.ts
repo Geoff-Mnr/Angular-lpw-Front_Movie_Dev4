@@ -38,6 +38,7 @@ export class LoginComponent {
       this.authService.login(email, password).subscribe({
         next: (res) => {
           this.authService.setToken(res.data.access_token);
+          console.log("Token expires at:", res.data.expires_at);
           this.authService.getProfile().subscribe({
             next: (userRes) => {
               this.router.navigate(["/movies"]);

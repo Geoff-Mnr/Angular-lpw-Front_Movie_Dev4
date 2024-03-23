@@ -19,10 +19,9 @@ export class AuthService {
     return !!token;
   }
 
+  // Méthode pour stocker le token dans le localStorage
   setToken(token: string): void {
-    const tokenReivedAt = new Date().toISOString();
     localStorage.setItem("token", token);
-    localStorage.setItem("tokenReceivedAt", tokenReivedAt);
   }
 
   // Méthode de connexion
