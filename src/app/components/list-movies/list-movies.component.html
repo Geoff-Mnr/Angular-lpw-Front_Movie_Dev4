@@ -23,7 +23,9 @@
         <tr class="border-b border-gray-200">
           <td class="px-4 py-3">{{ movie.title }}</td>
           <td class="px-4 py-3">{{ movie.year }}</td>
-          <td class="px-4 py-3">{{ movie.director_id }}</td>
+          @for (director of directors; track director){ @if (director.id === movie.director_id) {
+          <td class="px-4 py-3">{{ director.name }}</td>
+          } }
           <td class="px-4 py-3">{{ movie.synopsis }}</td>
           <td class="px-4 py-3">
             {{ movie.created_at | date : "dd/MM/yyyy HH:mm" }}

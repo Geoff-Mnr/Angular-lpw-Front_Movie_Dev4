@@ -34,6 +34,7 @@ export class ListMoviesComponent implements OnDestroy {
   toaster = inject(ToastrService);
 
   movies: Movie[] = [];
+  directors: Director[] = [];
 
   displayForm = false;
 
@@ -46,6 +47,13 @@ export class ListMoviesComponent implements OnDestroy {
     this.subDelete = this.service.list().subscribe((result: any) => {
       this.movies = result.data;
       console.log(this.movies);
+    });
+  }
+
+  getAllDirectors() {
+    this.directorService.getAllDirectors().subscribe((result: any) => {
+      this.directors = result.data;
+      console.log(this.directors);
     });
   }
 
