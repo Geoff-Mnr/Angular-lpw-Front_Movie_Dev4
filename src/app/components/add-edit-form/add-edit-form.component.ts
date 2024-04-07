@@ -20,7 +20,7 @@ export class AddEditFormComponent {
     id: 0,
     title: "",
     year: 0,
-    director: "",
+    director_id: 0,
     synopsis: "",
     created_at: new Date(),
     updated_at: new Date(),
@@ -31,7 +31,7 @@ export class AddEditFormComponent {
   form = this.fb.group({
     title: ["", Validators.required],
     year: ["", [Validators.required, Validators.min(1896)]],
-    director: ["", Validators.required],
+    director_id: ["", Validators.required],
     synopsis: ["", [Validators.required, Validators.minLength(5)]],
   });
 

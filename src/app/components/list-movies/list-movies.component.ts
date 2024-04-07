@@ -1,10 +1,12 @@
 import { Component, inject } from "@angular/core";
 import { MovieService } from "../../services/movie.service";
+import { DirectorService } from "../../services/director.service";
 import { Movie } from "../../models/movie.interface";
+import { Director } from "../../models/director.interface";
 import { RouterLink } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { AddEditFormComponent } from "../add-edit-form/add-edit-form.component";
-import { Subscription, first } from "rxjs";
+import { Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../services/auth.service";
 import { Router, RouterOutlet } from "@angular/router";
@@ -22,6 +24,9 @@ export class ListMoviesComponent implements OnDestroy {
   service = inject(MovieService);
   authService = inject(AuthService);
   router = inject(Router);
+  directorService = inject(DirectorService);
+
+  moviesWithDirector: any[] = [];
 
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
@@ -40,8 +45,10 @@ export class ListMoviesComponent implements OnDestroy {
   getAllMovies() {
     this.subDelete = this.service.list().subscribe((result: any) => {
       this.movies = result.data;
+      console.log(this.movies);
     });
   }
+
   // Méthode pour sélectionner un film
   selectMovie(movie: Movie) {
     this.selectedMovie = movie;
