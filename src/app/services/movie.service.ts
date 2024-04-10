@@ -2,6 +2,8 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Movie } from "../models/movie.interface";
+import { Pagination } from "../models/pagination.interface";
+import { HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root",
@@ -14,9 +16,13 @@ export class MovieService {
   constructor() {}
 
   // Méthode pour récupérer la liste des films
-  // i want to get paginated movies from my api
-  getAllMovies(page: number): Observable<Movie[]> {
-    return this.http.get<Movie[]>(`${this.baseUri}/movies?page=${page}`);
+  listMovies(page: number = 1, perPage: number = 10, search: string = ""): Observable<any> {
+    let params = new HttpParams().set("page", page.toString()).set("per_page", perPage.toString());
+    if (search) {
+      params = params.set("q", search);
+    }
+
+    return this.http.get<any>(`${this.baseUri}/movies`, { params });
   }
 
   // Méthode pour ajouter un film

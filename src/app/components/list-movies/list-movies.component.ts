@@ -12,23 +12,22 @@ import { AuthService } from "../../services/auth.service";
 import { Router, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { OnDestroy } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-list-movies",
   standalone: true,
-  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent, RouterOutlet, HttpClientModule],
+  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent, RouterOutlet, HttpClientModule, CommonModule, FormsModule],
   templateUrl: "./list-movies.component.html",
   styleUrl: "./list-movies.component.scss",
 })
 export class ListMoviesComponent implements OnDestroy {
-  service = inject(MovieService);
+  movieService = inject(MovieService);
   authService = inject(AuthService);
   router = inject(Router);
   directorService = inject(DirectorService);
 
   moviesWithDirector: any[] = [];
-
-  currentPage = 1;
 
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
@@ -36,20 +35,51 @@ export class ListMoviesComponent implements OnDestroy {
   toaster = inject(ToastrService);
 
   movies: Movie[] = [];
-  directors: Director[] = [];
+  currentPage = 1;
+  totalPage = 1;
+  totalItems = 1;
+  itemsPerPage = 10;
+  search: string = "";
 
   displayForm = false;
 
   ngOnInit() {
-    this.getAllMoviesWithPagination(this.currentPage);
+    const savedItemsPerPage = localStorage.getItem("itemsPerPage");
+    if (savedItemsPerPage) {
+      this.itemsPerPage = parseInt(savedItemsPerPage, 10);
+    }
+    this.getAllMovies();
+  }
+
+  //search method to search for a movie
+  searchMovie() {
+    this.getAllMovies(this.currentPage);
+    console.log(this.search);
   }
 
   /*Methode pour afficher le formulaire d'ajout*/
-  getAllMoviesWithPagination(page: number) {
-    this.service.getAllMovies(page).subscribe((result: any) => {
-      this.movies = result.data;
-      console.log(this.movies);
+  getAllMovies(page: number = 1) {
+    console.log(page, this.itemsPerPage, this.search);
+    this.movieService.listMovies(page, this.itemsPerPage, this.search).subscribe({
+      next: (response) => {
+        // Mise à jour de l'état du composant avec les données reçues
+        this.movies = response.data.data;
+        console.log(this.movies);
+        this.totalItems = response.data.total;
+        this.totalPage = response.data.last_page;
+        // Calcul de la page courante, avec vérification pour rester dans les limites valides
+        this.currentPage = page < 1 ? 1 : page > this.totalPage ? this.totalPage : page;
+      },
+      error: (error) => {
+        // Gestion des erreurs (par exemple, affichage d'un message d'erreur)
+        console.error("Une erreur est survenue lors de la récupération des films:", error);
+      },
     });
+  }
+
+  onItemsPerPageChange() {
+    localStorage.setItem("itemsPerPage", this.itemsPerPage.toString());
+    this.getAllMovies();
   }
 
   // Méthode pour sélectionner un film
@@ -59,11 +89,11 @@ export class ListMoviesComponent implements OnDestroy {
   }
   // Méthode pour mettre à jour un film
   updateMovie(item: Movie) {
-    this.subDelete = this.service.update(item.id, item).subscribe({
+    this.subDelete = this.movieService.update(item.id, item).subscribe({
       next: () => {
         this.toaster.success("Film modifié avec succès", "Félicitations !");
         console.log("Movie updated successfully");
-        this.getAllMoviesWithPagination(this.currentPage);
+        this.getAllMovies();
         this.closeEditForm();
       },
       error: (error) => {
@@ -74,11 +104,11 @@ export class ListMoviesComponent implements OnDestroy {
   }
   // Méthode pour créer un film
   createMovie(item: Movie) {
-    this.subDelete = this.service.create(item).subscribe({
+    this.subDelete = this.movieService.create(item).subscribe({
       next: () => {
         this.toaster.success("Film ajouté avec succès", "Félicitations !");
         console.log("Movie created successfully");
-        this.getAllMoviesWithPagination(this.currentPage);
+        this.getAllMovies();
         this.closeAddForm();
         this.closeEditForm();
       },
@@ -91,11 +121,11 @@ export class ListMoviesComponent implements OnDestroy {
 
   // Méthode pour supprimer un film
   deleteMovie(item: Movie) {
-    this.subDelete = this.service.delete(item.id).subscribe({
+    this.subDelete = this.movieService.delete(item.id).subscribe({
       next: () => {
         this.toaster.success("Film supprimé avec succès", "Félicitations !");
         console.log("Movie deleted successfully'");
-        this.getAllMoviesWithPagination(this.currentPage);
+        this.getAllMovies();
       },
       error: (error) => {
         this.toaster.error("Erreur lors de la suppression du film", "Erreur");
