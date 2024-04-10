@@ -28,6 +28,8 @@ export class ListMoviesComponent implements OnDestroy {
 
   moviesWithDirector: any[] = [];
 
+  currentPage = 1;
+
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
 
@@ -39,21 +41,14 @@ export class ListMoviesComponent implements OnDestroy {
   displayForm = false;
 
   ngOnInit() {
-    this.getAllMovies();
+    this.getAllMoviesWithPagination(this.currentPage);
   }
 
   /*Methode pour afficher le formulaire d'ajout*/
-  getAllMovies() {
-    this.subDelete = this.service.list().subscribe((result: any) => {
+  getAllMoviesWithPagination(page: number) {
+    this.service.getAllMovies(page).subscribe((result: any) => {
       this.movies = result.data;
       console.log(this.movies);
-    });
-  }
-
-  getAllDirectors() {
-    this.directorService.getAllDirectors().subscribe((result: any) => {
-      this.directors = result.data;
-      console.log(this.directors);
     });
   }
 
@@ -68,7 +63,7 @@ export class ListMoviesComponent implements OnDestroy {
       next: () => {
         this.toaster.success("Film modifié avec succès", "Félicitations !");
         console.log("Movie updated successfully");
-        this.getAllMovies();
+        this.getAllMoviesWithPagination(this.currentPage);
         this.closeEditForm();
       },
       error: (error) => {
@@ -83,7 +78,7 @@ export class ListMoviesComponent implements OnDestroy {
       next: () => {
         this.toaster.success("Film ajouté avec succès", "Félicitations !");
         console.log("Movie created successfully");
-        this.getAllMovies();
+        this.getAllMoviesWithPagination(this.currentPage);
         this.closeAddForm();
         this.closeEditForm();
       },
@@ -100,7 +95,7 @@ export class ListMoviesComponent implements OnDestroy {
       next: () => {
         this.toaster.success("Film supprimé avec succès", "Félicitations !");
         console.log("Movie deleted successfully'");
-        this.getAllMovies();
+        this.getAllMoviesWithPagination(this.currentPage);
       },
       error: (error) => {
         this.toaster.error("Erreur lors de la suppression du film", "Erreur");

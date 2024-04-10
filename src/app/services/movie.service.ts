@@ -14,8 +14,9 @@ export class MovieService {
   constructor() {}
 
   // Méthode pour récupérer la liste des films
-  list(): Observable<Movie[]> {
-    return this.http.get<Movie[]>(`${this.baseUri}/movies`);
+  // i want to get paginated movies from my api
+  getAllMovies(page: number): Observable<Movie[]> {
+    return this.http.get<Movie[]>(`${this.baseUri}/movies?page=${page}`);
   }
 
   // Méthode pour ajouter un film
