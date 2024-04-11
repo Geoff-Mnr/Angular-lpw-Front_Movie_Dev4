@@ -2,6 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Director } from "../models/director.interface";
+import { HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root",
@@ -14,8 +15,8 @@ export class DirectorService {
   constructor() {}
 
   // Méthode pour récupérer la liste des réalisateurs
-  getAllDirectors(): Observable<Director[]> {
-    return this.http.get<Director[]>(`${this.baseUri}/directors`);
+  listDirectors(): Observable<Director[]> {
+    return this.http.get<Director[]>(`${this.baseUri}/listdirectors`);
   }
 
   // Méthode pour ajouter un réalisateur

@@ -1,7 +1,10 @@
-import { Component, EventEmitter, Input, Output, inject } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectorRef, inject } from "@angular/core";
 import { Movie } from "../../models/movie.interface";
 import { FormsModule, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule, DatePipe } from "@angular/common";
+import { DirectorService } from "../../services/director.service";
+import { Inject } from "@angular/core";
+import { Director } from "../../models/director.interface";
 
 @Component({
   selector: "app-add-edit-form",
@@ -16,11 +19,19 @@ export class AddEditFormComponent {
   @Output() editEmitter = new EventEmitter();
   @Output() closeEmitter = new EventEmitter();
 
+  directorService = inject(DirectorService);
+
+  directors: Director[] = [];
+
   @Input() selectedMovie: Movie = {
     id: 0,
     title: "",
     year: 0,
     director_id: 0,
+    director: {
+      id: 0,
+      name: "",
+    },
     synopsis: "",
     created_at: new Date(),
     updated_at: new Date(),
@@ -41,9 +52,18 @@ export class AddEditFormComponent {
     return this.datePipe.transform(date, "HH:mm le dd-MM-yyyy");
   }
 
-  /* réinitialise le formulaire */
   ngOnInit() {
+    this.getAllDirectors();
+    console.log(this.selectedMovie);
     this.selectedMovie = this.clone(this.selectedMovie);
+  }
+
+  /*²permet de récupérer la liste des réalisateurs all page */
+  getAllDirectors() {
+    this.directorService.listDirectors().subscribe((response: any) => {
+      console.log(response);
+      this.directors = response.data;
+    });
   }
 
   /* permet de copier un objet */

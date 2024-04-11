@@ -35,19 +35,21 @@
       } }
     </div>
     <div class="mb-2 p-4">
-      <label for="realisateur" class="mb-3 block text-base font-medium">Réalisateur</label>
-      <input
-        type="text"
-        name="realisateur"
-        formControlName="director_id"
+      <label for="director_id" class="text-sm font-medium text-slate-900">Réalisateur</label>
+      <select
+        id="director_id"
+        name="director_id"
         [(ngModel)]="selectedMovie.director_id"
-        required
+        formControlName="director_id"
         class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
-      />
+      >
+        <option value="" disabled selected>Choisir un réalisateur</option>
+        @for(director of directors; track director.id) {
+        <option [value]="director.id">{{ director.name }}</option>
+        }
+      </select>
       <br />
-      @if (form.controls.director_id.errors && form.controls.director_id.touched) {
-      <div class="text-red-700">Champ requis</div>
-      }
+      <div *ngIf="form.controls.director_id.errors && form.controls.director_id.touched" class="text-red-700">Champ requis</div>
     </div>
     <div class="mb-2 p-4">
       <label for="synopsis" class="mb-3 block text-base font-medium">Synopsis</label>

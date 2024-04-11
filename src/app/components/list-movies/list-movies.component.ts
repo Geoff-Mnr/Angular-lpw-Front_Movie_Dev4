@@ -27,8 +27,6 @@ export class ListMoviesComponent implements OnDestroy {
   router = inject(Router);
   directorService = inject(DirectorService);
 
-  moviesWithDirector: any[] = [];
-
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
 
