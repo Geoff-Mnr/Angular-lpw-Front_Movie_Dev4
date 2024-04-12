@@ -2,7 +2,6 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Movie } from "../models/movie.interface";
-import { Pagination } from "../models/pagination.interface";
 import { HttpParams } from "@angular/common/http";
 
 @Injectable({

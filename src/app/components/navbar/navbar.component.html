@@ -1,0 +1,31 @@
+<nav class="bg-black">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between">
+      <div class="flex flex-row items-center gap-10">
+        <div class="">
+          <a routerLink="/home"><img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=red&shade=600" alt="Your Company" /></a>
+        </div>
+        <div class="flex gap-6">
+          <a routerLink="/movies" routerLinkActive="active" class="text-white text-sm font-medium">Films</a>
+          <a routerLink="/directors" routerLinkActive="active" class="text-white text-sm font-medium">Réalisateurs</a>
+        </div>
+      </div>
+      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <div class="relative ml-3">
+          <div>
+            <button (click)="logout()" class="flex items-center gap-2 bg-red-600 text-white rounded-md px-3 py-2 text-sm font-medium">
+              <span class="text-white font-semibold">Déconnexion</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-white font-semibold">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

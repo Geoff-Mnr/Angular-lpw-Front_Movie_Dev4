@@ -2,28 +2,26 @@ import { Component, inject } from "@angular/core";
 import { MovieService } from "../../services/movie.service";
 import { DirectorService } from "../../services/director.service";
 import { Movie } from "../../models/movie.interface";
-import { Director } from "../../models/director.interface";
 import { RouterLink } from "@angular/router";
 import { CommonModule, DatePipe } from "@angular/common";
 import { AddEditFormComponent } from "../add-edit-form/add-edit-form.component";
 import { Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "../../services/auth.service";
 import { Router, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { OnDestroy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: "app-list-movies",
   standalone: true,
-  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent, RouterOutlet, HttpClientModule, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent, RouterOutlet, HttpClientModule, CommonModule, FormsModule, NavbarComponent],
   templateUrl: "./list-movies.component.html",
   styleUrl: "./list-movies.component.scss",
 })
 export class ListMoviesComponent implements OnDestroy {
   movieService = inject(MovieService);
-  authService = inject(AuthService);
   router = inject(Router);
   directorService = inject(DirectorService);
 
@@ -130,14 +128,6 @@ export class ListMoviesComponent implements OnDestroy {
         console.error("Error deleting movie:", error);
       },
     });
-  }
-
-  // Méthode pour déconnecter l'utilisateur
-  logout() {
-    this.authService.logout();
-    this.toaster.info("Déconnexion réussie", "Information");
-    this.router.navigate(["/login"]);
-    console.log("User logged out successfully");
   }
 
   private closeAddForm() {

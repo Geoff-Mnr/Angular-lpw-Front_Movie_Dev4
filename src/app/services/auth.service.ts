@@ -36,8 +36,9 @@ export class AuthService {
   }
 
   // Méthode d'inscription
-  register(email: string, password: string, confirm_password: string): Observable<any> {
+  register(username: string, email: string, password: string, confirm_password: string): Observable<any> {
     const formData = new FormData();
+    formData.append("username", username);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("confirm_password", confirm_password);

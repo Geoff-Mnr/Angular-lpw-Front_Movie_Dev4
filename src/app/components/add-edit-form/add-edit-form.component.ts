@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectorRef, inject } from "@angular/core";
+import { Component, EventEmitter, Input, Output, inject } from "@angular/core";
 import { Movie } from "../../models/movie.interface";
 import { FormsModule, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule, DatePipe } from "@angular/common";
 import { DirectorService } from "../../services/director.service";
-import { Inject } from "@angular/core";
 import { Director } from "../../models/director.interface";
 
 @Component({
@@ -31,6 +30,8 @@ export class AddEditFormComponent {
     director: {
       id: 0,
       name: "",
+      created_at: new Date(),
+      updated_at: new Date(),
     },
     synopsis: "",
     created_at: new Date(),

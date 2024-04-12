@@ -41,7 +41,7 @@ export class LoginComponent {
           console.log("Token expires at:", res.data.expires_at);
           this.authService.getProfile().subscribe({
             next: (userRes) => {
-              this.router.navigate(["/movies"]);
+              this.router.navigate(["/home"]);
               this.toaster.success("Connexion réussie!");
             },
             error: (err) => {

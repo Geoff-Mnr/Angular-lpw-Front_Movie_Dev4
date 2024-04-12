@@ -2,6 +2,7 @@ import { Component, inject } from "@angular/core";
 import { LoginComponent } from "./components/login/login.component";
 import { RouterLink, RouterOutlet } from "@angular/router";
 import { CommonModule } from "@angular/common";
+
 @Component({
   selector: "app-root",
   standalone: true,

@@ -45,6 +45,7 @@ export class RegisterComponent {
   // Création du formulaire d'inscription
   registerForm = new FormGroup(
     {
+      username: new FormControl("", [Validators.required]),
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [Validators.required, Validators.minLength(8), nospaceValidator()]),
       confirm_password: new FormControl("", [Validators.required, Validators.minLength(8), nospaceValidator()]),
@@ -54,12 +55,13 @@ export class RegisterComponent {
 
   // Méthode appelée lors de la soumission du formulaire
   register() {
+    let username = this.registerForm.value.username;
     let email = this.registerForm.value.email;
     let password = this.registerForm.value.password;
     let confirm_password = this.registerForm.value.confirm_password;
 
-    if (email && password && confirm_password) {
-      this.authService.register(email, password, confirm_password).subscribe({
+    if (username && email && password && confirm_password) {
+      this.authService.register(username, email, password, confirm_password).subscribe({
         next: (response) => {
           this.toaster.success("Inscription réussie !", "Succès");
           this.router.navigate(["/login"]);
