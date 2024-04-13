@@ -38,6 +38,6 @@ export class DirectorService {
   }
 
   deleteDirector(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUri}/directors/${id}`);
+    return this.http.delete<Director>(`${this.baseUri}/directors/${id}`);
   }
 }

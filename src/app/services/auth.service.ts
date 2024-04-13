@@ -2,6 +2,8 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { User } from "../models/user.interface";
+import { catchError } from "rxjs/operators";
+import { throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -29,10 +31,19 @@ export class AuthService {
     return this.http.post<User>(`${this.baseUri}/login`, { email, password });
   }
 
-  getProfile(): Observable<any> {
+  // Méthode pour récupérer le profil de l'utilisateur
+  getProfile(): Observable<User> {
     const token = localStorage.getItem("token");
+    if (!token) {
+      return throwError(() => new Error("Authentication token not found"));
+    }
+
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.get<User>(`${this.baseUri}/user`, { headers });
+    return this.http.get<User>(`${this.baseUri}/user`, { headers }).pipe(
+      catchError((error) => {
+        return throwError(() => new Error("An error occurred while fetching user profile"));
+      })
+    );
   }
 
   // Méthode d'inscription
