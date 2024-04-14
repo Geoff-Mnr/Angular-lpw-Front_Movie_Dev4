@@ -57,6 +57,12 @@
       </tbody>
     </table>
 
+    @if(movies.length === 0) {
+    <div class="flex justify-center items-center h-32">
+      <p class="text-gray-500">Aucun film trouvé</p>
+    </div>
+    }
+
     <div class="flex justify-end w-full"></div>
     @if(displayForm) {
     <app-add-edit-form (addEmitter)="createMovie($event)" (closeEmitter)="cancel()" />
@@ -72,11 +78,11 @@
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p class="text-sm text-gray-700">
-            Affichage
+            Page
             <span class="font-medium">{{ currentPage }}</span>
-            de
-            <span class="font-medium">{{ totalPage }}</span>
             sur
+            <span class="font-medium">{{ totalPage }}</span>
+            -
             <span class="font-medium">{{ totalItems }}</span>
             résultats
           </p>
@@ -89,7 +95,6 @@
         >
           <option>5</option>
           <option>10</option>
-          <option>15</option>
           <option>20</option>
         </select>
         <div>

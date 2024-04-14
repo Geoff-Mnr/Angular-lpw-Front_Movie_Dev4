@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Movie } from "../models/movie.interface";
 import { HttpParams } from "@angular/common/http";
+import { Toast } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",

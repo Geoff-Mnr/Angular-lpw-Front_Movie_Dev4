@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="mx-auto max-w-7xl">
+<div class="mx-auto w-1/2">
   <h2 class="text-xl font-bold mb-5 mt-10">Liste des Réalisateurs</h2>
   <div class="flex justify-between w-full h-16">
     <div>
@@ -24,31 +24,33 @@
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-white uppercase bg-black dark:bg-gray-700 dark:text-gray-400">
         <th scope="col" class="px-6 py-4">Nom</th>
-        <th scope="col" class="px-6 py-3">Ajouté à</th>
-        <th scope="col" class="px-6 py-3">Créé à</th>
+        @if(isAdmin){
         <th scope="col" class="px-6 py-3">Action</th>
+        }
       </thead>
-      <tbody>
+      <tbody class="w-full">
         <!--boucle pour récupérer les films via son id-->
         @for (director of directors; track director){
-        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-          <td class="px-6 py-4">{{ director.name }}</td>
-          <td class="px-6 py-4">
-            {{ director.created_at | date : "dd/MM/yyyy HH:mm" }}
-          </td>
-          <td class="px-6 py-4">
-            {{ director.updated_at | date : "dd/MM/yyyy HH:mm" }}
-          </td>
-          <td class="px-6 py-4 flex">
+        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 w-3/5">
+          <td class="px-6 py-4 w-3/5">{{ director.name }}</td>
+          @if(isAdmin) {
+          <td class="px-6 py-4 flex w-2/5">
             <!--bouton pour modifier un film-->
             <button (click)="selectDirector(director)" class="bg-green-800 text-white font-bold py-2 px-4 rounded hover:shadow-lg hover:bg-green-700">Modifier</button>
             <!--bouton pour supprimer un film-->
             <button (click)="deleteDirector(director)" class="bg-red-600 text-white font-bold py-2 px-4 rounded ml-2 hover:shadow-lg hover:bg-red-900">Supprimer</button>
           </td>
+          }
         </tr>
         }
       </tbody>
     </table>
+
+    @if(directors.length === 0) {
+    <div class="flex justify-center items-center h-32">
+      <span class="text-gray-500">Aucun réalisateur trouvé</span>
+    </div>
+    }
 
     <div class="flex justify-end w-full"></div>
     @if(displayForm) {
@@ -65,11 +67,11 @@
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p class="text-sm text-gray-700">
-            Affichage
+            Page
             <span class="font-medium">{{ currentPage }}</span>
-            de
-            <span class="font-medium">{{ totalPage }}</span>
             sur
+            <span class="font-medium">{{ totalPage }}</span>
+            -
             <span class="font-medium">{{ totalItems }}</span>
             résultats
           </p>
@@ -82,7 +84,6 @@
         >
           <option>5</option>
           <option>10</option>
-          <option>15</option>
           <option>20</option>
         </select>
         <div>

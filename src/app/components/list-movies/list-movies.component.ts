@@ -11,7 +11,7 @@ import { Router, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { OnDestroy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NavbarComponent } from "../navbar/navbar.component";
+import { NavbarComponent } from "../navbar/NavbarComponent";
 
 @Component({
   selector: "app-list-movies",
@@ -63,11 +63,13 @@ export class ListMoviesComponent implements OnDestroy {
         console.log(this.movies);
         this.totalItems = response.data.total;
         this.totalPage = response.data.last_page;
-        // Calcul de la page courante, avec vérification pour rester dans les limites valides
+
+        if (this.totalItems === 0) {
+          this.toaster.info("Aucun film trouvé", "Information");
+        }
         this.currentPage = page < 1 ? 1 : page > this.totalPage ? this.totalPage : page;
       },
       error: (error) => {
-        // Gestion des erreurs (par exemple, affichage d'un message d'erreur)
         console.error("Une erreur est survenue lors de la récupération des films:", error);
       },
     });

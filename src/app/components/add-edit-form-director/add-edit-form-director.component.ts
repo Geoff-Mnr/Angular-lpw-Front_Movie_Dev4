@@ -26,7 +26,7 @@ export class AddEditFormDirectorComponent {
   fb = inject(FormBuilder);
 
   form = this.fb.group({
-    name: ["", Validators.required],
+    name: ["", [Validators.required, Validators.minLength(3)]],
   });
 
   constructor(private datePipe: DatePipe) {}

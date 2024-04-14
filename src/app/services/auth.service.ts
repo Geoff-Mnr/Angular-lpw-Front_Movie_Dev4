@@ -17,13 +17,24 @@ export class AuthService {
 
   // Méthode pour vérifier si l'utilisateur est connecté
   isAuthenticated(): boolean {
-    const token = localStorage.getItem("token");
-    return !!token;
+    return !!localStorage.getItem("session");
+  }
+
+  getToken(): string {
+    return JSON.parse(localStorage.getItem("session")!).access_token;
+  }
+
+  isAdmin(): boolean {
+    return JSON.parse(localStorage.getItem("session")!).user.role_name == "Admin";
+  }
+
+  getUsername(): string {
+    return JSON.parse(localStorage.getItem("session")!).user.username;
   }
 
   // Méthode pour stocker le token dans le localStorage
-  setToken(token: string): void {
-    localStorage.setItem("token", token);
+  setSession(session: any): void {
+    localStorage.setItem("session", JSON.stringify(session));
   }
 
   // Méthode de connexion
@@ -33,13 +44,13 @@ export class AuthService {
 
   // Méthode pour récupérer le profil de l'utilisateur
   getProfile(): Observable<User> {
-    const token = localStorage.getItem("token");
+    /*const token = localStorage.getItem("token");
     if (!token) {
       return throwError(() => new Error("Authentication token not found"));
     }
 
-    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.get<User>(`${this.baseUri}/user`, { headers }).pipe(
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);*/
+    return this.http.get<User>(`${this.baseUri}/user` /*, { headers }*/).pipe(
       catchError((error) => {
         return throwError(() => new Error("An error occurred while fetching user profile"));
       })
@@ -58,7 +69,7 @@ export class AuthService {
 
   // Méthode de déconnexion
   logout(): void {
-    localStorage.removeItem("token");
+    localStorage.removeItem("session");
     localStorage.removeItem("tokenReceivedAt");
     localStorage.removeItem("user");
   }

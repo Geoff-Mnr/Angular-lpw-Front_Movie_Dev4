@@ -16,7 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
 
   if (authService.isAuthenticated()) {
     let headers = req.headers;
-    headers = headers.set("Authorization", `Bearer ${localStorage.getItem("token")}`);
+    headers = headers.set("Authorization", `Bearer ${authService.getToken()}`);
     return next(req.clone({ headers: headers }));
   } else {
     return next(req).pipe(

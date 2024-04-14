@@ -10,7 +10,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { OnDestroy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AddEditFormDirectorComponent } from "../add-edit-form-director/add-edit-form-director.component";
-import { NavbarComponent } from "../navbar/navbar.component";
+import { NavbarComponent } from "../navbar/NavbarComponent";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-list-directors",
@@ -21,6 +22,7 @@ import { NavbarComponent } from "../navbar/navbar.component";
 })
 export class ListDirectorsComponent implements OnDestroy {
   directorService = inject(DirectorService);
+  authService = inject(AuthService);
   router = inject(Router);
 
   selectedDirector?: Director;
@@ -37,12 +39,15 @@ export class ListDirectorsComponent implements OnDestroy {
 
   displayForm = false;
 
+  isAdmin: boolean = false;
+
   ngOnInit() {
     const savedItemsPerPage = localStorage.getItem("itemsPerPage");
     if (savedItemsPerPage) {
       this.itemsPerPage = parseInt(savedItemsPerPage, 10);
     }
     this.getAllDirectors();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   //search method to search for a director
@@ -60,6 +65,11 @@ export class ListDirectorsComponent implements OnDestroy {
         console.log(response);
         this.totalItems = response.data.total;
         this.totalPage = response.data.last_page;
+
+        if (this.totalItems === 0) {
+          this.toaster.info("Aucun réalisateur trouvé", "Information");
+        }
+
         this.currentPage = page < 1 ? 1 : page > this.totalPage ? this.totalPage : page;
       },
       error: (error) => {
@@ -108,13 +118,18 @@ export class ListDirectorsComponent implements OnDestroy {
   }
 
   deleteDirector(item: Director) {
+    this.subDelete?.unsubscribe();
     this.subDelete = this.directorService.deleteDirector(item.id).subscribe({
       next: () => {
         this.toaster.success("Le réalisateur a été supprimé avec succès");
         this.getAllDirectors();
       },
       error: (error) => {
-        this.toaster.error("Une erreur est survenue lors de la suppression du réalisateur");
+        let message = "Une erreur est survenue lors de la suppression du réalisateur";
+        if (error.status === 403) {
+          message = "Vous n'êtes pas autorisé à supprimer cet réalisateur";
+        }
+        this.toaster.error(message);
         console.error(error);
       },
     });

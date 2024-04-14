@@ -46,17 +46,16 @@
         <div class="mb-2 p-4">
           <label for="director_id" class="text-sm font-medium text-slate-900">Réalisateur</label>
           <select
-            id="director_id"
             name="director_id"
-            [(ngModel)]="selectedMovie.director_id"
             formControlName="director_id"
+            [(ngModel)]="selectedMovie.director_id"
+            required
             class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
           >
             <option value="" disabled selected>Choisir un réalisateur</option>
-            @for(director of directors; track director.id) {
-            <option [value]="director.id">{{ director.name }}</option>
-            }
+            <option *ngFor="let director of directors" [value]="director.id">{{ director.name }}</option>
           </select>
+
           <br />
           <div *ngIf="form.controls.director_id.errors && form.controls.director_id.touched" class="text-red-700">Champ requis</div>
         </div>

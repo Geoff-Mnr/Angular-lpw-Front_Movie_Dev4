@@ -4,7 +4,6 @@ import { RouterLink } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { ToastrService } from "ngx-toastr";
 import { RouterLinkActive } from "@angular/router";
-import { User } from "../../models/user.interface";
 import { CommonModule } from "@angular/common";
 import { UserService } from "../../services/user.service";
 
@@ -32,10 +31,6 @@ export class NavbarComponent {
     this.toaster.info("Déconnexion réussie", "Information");
     this.router.navigate(["/login"]);
     console.log("User logged out successfully");
-  }
-
-  get showNavbar(): boolean {
-    return this.router.url === "/movies" || this.router.url === "/directors" || this.router.url === "/home";
   }
 
   ngOnInit() {

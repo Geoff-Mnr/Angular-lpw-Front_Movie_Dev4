@@ -21,9 +21,7 @@
               class="w-full rounded-md border border-blue-950 bg-white py-3 px-6 text-base font-medium text-gray-700 outline-none focus:border-blue-600 focus:shadow-md"
             />
             <br />
-            @if(form.controls.name.errors && form.controls.name.touched) {
-            <div class="text-red-700">Champ requis</div>
-            }
+            <div *ngIf="form.controls.name.invalid && form.controls.name.touched" class="text-red-500 text-xs mt-1">Le réalisateur n'est pas valide</div>
           </div>
         </div>
         <div class="grid grid-cols-2">

@@ -37,17 +37,10 @@ export class LoginComponent {
     if (email && password) {
       this.authService.login(email, password).subscribe({
         next: (res) => {
-          this.authService.setToken(res.data.access_token);
+          this.authService.setSession(res.data);
           console.log("Token expires at:", res.data.expires_at);
-          this.authService.getProfile().subscribe({
-            next: (userRes) => {
-              this.router.navigate(["/home"]);
-              this.toaster.success("Connexion réussie!");
-            },
-            error: (err) => {
-              this.toaster.error("Erreur lors de la récupération du profil.");
-            },
-          });
+          this.router.navigate(["/home"]);
+          this.toaster.success("Connexion réussie!");
         },
         error: (err) => {
           this.toaster.error("Erreur lors de la connexion.");
