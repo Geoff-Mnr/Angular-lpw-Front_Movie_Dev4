@@ -11,12 +11,11 @@ import { Router, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { OnDestroy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NavbarComponent } from "../navbar/NavbarComponent";
 
 @Component({
   selector: "app-list-movies",
   standalone: true,
-  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent, RouterOutlet, HttpClientModule, CommonModule, FormsModule, NavbarComponent],
+  imports: [RouterLink, CommonModule, DatePipe, AddEditFormComponent, RouterOutlet, HttpClientModule, CommonModule, FormsModule],
   templateUrl: "./list-movies.component.html",
   styleUrl: "./list-movies.component.scss",
 })
@@ -56,7 +55,7 @@ export class ListMoviesComponent implements OnDestroy {
   /*Methode pour afficher le formulaire d'ajout*/
   getAllMovies(page: number = 1) {
     console.log(page, this.itemsPerPage, this.search);
-    this.movieService.listMovies(page, this.itemsPerPage, this.search).subscribe({
+    this.subDelete = this.movieService.listMoviesByUser(page, this.itemsPerPage, this.search).subscribe({
       next: (response) => {
         // Mise à jour de l'état du composant avec les données reçues
         this.movies = response.data.data;

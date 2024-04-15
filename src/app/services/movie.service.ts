@@ -16,13 +16,21 @@ export class MovieService {
   constructor() {}
 
   // Méthode pour récupérer la liste des films
-  listMovies(page: number = 1, perPage: number = 10, search: string = ""): Observable<any> {
+  listMoviesByUser(page: number = 1, perPage: number = 10, search: string = ""): Observable<any> {
     let params = new HttpParams().set("page", page.toString()).set("per_page", perPage.toString());
     if (search) {
       params = params.set("q", search);
     }
 
     return this.http.get<any>(`${this.baseUri}/movies`, { params });
+  }
+
+  listAllMovies(page: number = 1, perPage: number = 10, search: string = ""): Observable<any> {
+    let params = new HttpParams().set("page", page.toString()).set("per_page", perPage.toString());
+    if (search) {
+      params = params.set("q", search);
+    }
+    return this.http.get<any>(`${this.baseUri}/getallmovies`, { params });
   }
 
   // Méthode pour ajouter un film

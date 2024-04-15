@@ -36,6 +36,7 @@ export class AddEditFormComponent {
     synopsis: "",
     created_at: new Date(),
     updated_at: new Date(),
+    created_by: "",
   };
 
   fb = inject(FormBuilder);
@@ -82,7 +83,7 @@ export class AddEditFormComponent {
 
   /* permet d'ouvrir un formulaire pour modifier un film */
   editMovie() {
-    const toSend = this.clone(this.selectedMovie);
-    this.editEmitter.emit(toSend);
+    const movie = this.clone(this.selectedMovie);
+    this.editEmitter.emit(movie);
   }
 }
