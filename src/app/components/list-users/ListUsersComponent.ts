@@ -75,17 +75,15 @@ export class ListUsersComponent implements OnDestroy {
 
   //i want a method to change the status of the user in 0
   isActif(user: User) {
-    console.log(user);
-    if (confirm("Êtes-vous sûr de vouloir bannir cet utilisateur ?")) {
-      this.userService.isActif(user.id).subscribe({
-        next: () => {
-          this.toaster.success("L'utilisateur est banni", "Succès");
-          this.getListUsers();
-        },
-        error: (error) => {
-          this.toaster.error("Une erreur est survenue lors de la désactivation de l'utilisateur", "Erreur");
-        },
-      });
-    }
+    this.userService.isActif(user.id).subscribe({
+      next: (response) => {
+        this.toaster.success("L'utilisateur est désactivé", "Succès");
+        this.getListUsers();
+        console.log(response);
+      },
+      error: (error) => {
+        this.toaster.error("Une erreur est survenue lors de la désactivation de l'utilisateur", "Erreur");
+      },
+    });
   }
 }

@@ -27,4 +27,8 @@ export class UserService {
   getProfileUser(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUri}/getprofile`);
   }
+
+  isActif(id: number): Observable<any> {
+    return this.http.put<User>(`${this.baseUri}/users/${id}`, { is_active: 0 });
+  }
 }

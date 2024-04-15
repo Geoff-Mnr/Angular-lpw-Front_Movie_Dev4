@@ -43,7 +43,13 @@ export class LoginComponent {
           this.toaster.success("Connexion réussie!");
         },
         error: (err) => {
-          this.toaster.error("Erreur lors de la connexion.");
+          if (err.status === 403) {
+            this.toaster.error("Vous êtes banni, veuillez contacter l'administrateur.");
+          } else if (err.status === 401) {
+            this.toaster.error("Email ou mot de passe incorrect.");
+          } else {
+            this.toaster.error("Une erreur est survenue, veuillez réessayer plus tard.");
+          }
         },
       });
     } else {

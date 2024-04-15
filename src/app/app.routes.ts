@@ -7,7 +7,7 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ListDirectorsComponent } from "./components/list-directors/list-directors.component";
 import { ListMoviesComponent } from "./components/list-movies/list-movies.component";
 
-import { ListUsersComponent } from "./components/list-users/list-users.component";
+import { ListUsersComponent } from "./components/list-users/ListUsersComponent";
 import { MainLayoutComponent } from "./components/main-layout/main-layout.component";
 import { ListAllMoviesComponent } from "./components/list-all-movies/list-all-movies.component";
 
