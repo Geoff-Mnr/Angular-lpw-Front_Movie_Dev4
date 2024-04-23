@@ -73,7 +73,6 @@ export class ListUsersComponent implements OnDestroy {
     }
   }
 
-  //i want a method to change the status of the user in 0
   isActif(user: User) {
     this.userService.isActif(user.id).subscribe({
       next: (response) => {
