@@ -73,6 +73,10 @@ export class ListUsersComponent implements OnDestroy {
     }
   }
 
+  viewUserMovies(userId: number) {
+    this.router.navigate(["/movies-by-user", userId]);
+  }
+
   //i want a method to change the status of the user in 0
   isActif(user: User) {
     console.log(user);

@@ -11,6 +11,7 @@ import { Router, RouterOutlet } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { OnDestroy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-list-movies",
@@ -23,6 +24,7 @@ export class ListMoviesComponent implements OnDestroy {
   movieService = inject(MovieService);
   router = inject(Router);
   directorService = inject(DirectorService);
+  private = inject(ActivatedRoute);
 
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
@@ -101,6 +103,7 @@ export class ListMoviesComponent implements OnDestroy {
   }
   // Méthode pour créer un film
   createMovie(item: Movie) {
+    console.log("Creating movie:", item);
     this.subDelete = this.movieService.create(item).subscribe({
       next: () => {
         this.toaster.success("Film ajouté avec succès", "Félicitations !");

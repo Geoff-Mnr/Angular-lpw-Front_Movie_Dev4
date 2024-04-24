@@ -36,7 +36,6 @@ export class AddEditFormComponent {
     synopsis: "",
     created_at: new Date(),
     updated_at: new Date(),
-    created_by: "",
   };
 
   fb = inject(FormBuilder);
@@ -55,9 +54,9 @@ export class AddEditFormComponent {
   }
 
   ngOnInit() {
-    this.getAllDirectors();
     console.log(this.selectedMovie);
     this.selectedMovie = this.clone(this.selectedMovie);
+    this.getAllDirectors();
   }
 
   /*²permet de récupérer la liste des réalisateurs all page */
@@ -74,6 +73,7 @@ export class AddEditFormComponent {
   }
 
   addMovie() {
+    console.log(this.form);
     this.addEmitter.emit(this.selectedMovie);
   }
 

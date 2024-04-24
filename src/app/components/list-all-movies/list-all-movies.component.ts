@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { MovieService } from "../../services/movie.service";
-import { Movie } from "../../models/movie.interface";
+import { Movie, MovieWithCreator } from "../../models/movie.interface";
 import { CommonModule, DatePipe } from "@angular/common";
 import { Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { OnDestroy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: "app-list-all-movies",
@@ -19,10 +20,12 @@ import { FormsModule } from "@angular/forms";
 export class ListAllMoviesComponent implements OnDestroy {
   movieService = inject(MovieService);
   router = inject(Router);
+  userService = inject(UserService);
   private subDelete: Subscription | undefined;
   toaster = inject(ToastrService);
 
-  movies: Movie[] = [];
+  movies: MovieWithCreator[] = [];
+
   currentPage = 1;
   totalPage = 1;
   totalItems = 1;
@@ -47,7 +50,8 @@ export class ListAllMoviesComponent implements OnDestroy {
     this.subDelete = this.movieService.listAllMovies(page, this.itemsPerPage, this.search).subscribe({
       next: (response) => {
         // Mise à jour de l'état du composant avec les données reçues
-        this.movies = response.data.data;
+        this.movies = response.data.data as MovieWithCreator[];
+
         console.log(this.movies);
         this.totalItems = response.data.total;
         this.totalPage = response.data.last_page;
@@ -62,6 +66,7 @@ export class ListAllMoviesComponent implements OnDestroy {
       },
     });
   }
+
   onItemsPerPageChange() {
     localStorage.setItem("itemsPerPage", this.itemsPerPage.toString());
     this.getListMovies();

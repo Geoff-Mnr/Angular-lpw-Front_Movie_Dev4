@@ -11,6 +11,8 @@ export interface User {
     created_at: string;
     updated_at: string;
   };
-  is_active: number;
+  is_active: string;
   role_name: string;
+  created_by: string;
+  nbMovies: number;
 }

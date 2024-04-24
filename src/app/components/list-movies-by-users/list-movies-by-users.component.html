@@ -1,10 +1,10 @@
 <div class="mx-auto max-w-7xl">
-  <h2 class="text-xl font-bold mb-5 mt-10">Liste des Utilisateurs</h2>
+  <h2 class="text-xl font-bold mb-5 mt-10">Liste des films</h2>
 
   <div class="flex justify-between w-full h-16">
     <div class="flex w-2/5 h-10">
       <input [(ngModel)]="search" type="text" class="w-full border border-gray-200 py-2 px-3 text-sm rounded-l-md font-medium" placeholder="Rechercher un film, un réalisateur,..." />
-      <button (click)="searchUser()" class="bg-black text-white text-sm font-medium py-2 px-3 rounded-r-md hover:shadow-lg hover:bg-blue-900">
+      <button (click)="searchMovie()" class="bg-black text-white text-sm font-medium py-2 px-3 rounded-r-md hover:shadow-lg hover:bg-blue-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
         </svg>
@@ -15,45 +15,35 @@
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-white uppercase bg-black dark:bg-gray-700 dark:text-gray-400">
-        <th scope="col" class="px-6 py-4">Username</th>
-        <th scope="col" class="px-6 py-3">Email</th>
-        <th scope="col" class="px-6 py-3">Role</th>
-        <th scope="col" class="px-6 py-3">Films</th>
-        <th scope="col" class="px-6 py-3">Statut</th>
+        <th scope="col" class="px-6 py-4">Titre</th>
+        <th scope="col" class="px-6 py-3">Année</th>
+        <th scope="col" class="px-6 py-3">Réalisateur</th>
+        <th scope="col" class="px-6 py-3">Synopsis</th>
         <th scope="col" class="px-6 py-3">Ajouté à</th>
-        <th scope="col" class="px-6 py-3">modifié à</th>
-        <th scope="col" class="px-6 py-3">Actions</th>
+        <th scope="col" class="px-6 py-3">Créé à</th>
       </thead>
       <tbody>
         <!--boucle pour récupérer les films via son id-->
-        @for (user of users; track user){
+        @for (movie of movies; track movie){
         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-          <td class="px-6 py-4" (click)="viewUserMovies(user.id)">{{ user.username }}</td>
-          <td class="px-6 py-4">{{ user.email }}</td>
-          <td class="px-6 py-4">{{ user.role_name }}</td>
-          <td class="px-6 py-4">{{ user.nbMovies }}</td>
-          <td class="px-6 py-4">{{ user.is_active }}</td>
+          <td class="px-6 py-4">{{ movie.title }}</td>
+          <td class="px-6 py-4">{{ movie.year }}</td>
+          <td class="px-6 py-4">{{ movie.director }}</td>
+          <td class="px-6 py-4">{{ movie.synopsis }}</td>
           <td class="px-6 py-4">
-            {{ user.created_at | date : "dd/MM/yyyy HH:mm" }}
+            {{ movie.created_at | date : "dd/MM/yyyy HH:mm" }}
           </td>
           <td class="px-6 py-4">
-            {{ user.updated_at | date : "dd/MM/yyyy HH:mm" }}
-          </td>
-          <td class="px-6 py-4">
-            @if(user.is_active === 'Actif') {
-            <button (click)="isActif(user)" class="bg-red-600 text-white rounded-md px-3 py-2 text-sm font-medium">Bannir</button>
-            } @if (user.is_active === 'Banni') {
-            <span class="text-red-500 bg-black rounded-md px-3 py-2 text-sm font-medium">{{ user.is_active }}</span>
-            }
+            {{ movie.updated_at | date : "dd/MM/yyyy HH:mm" }}
           </td>
         </tr>
         }
       </tbody>
     </table>
 
-    @if(users.length === 0) {
+    @if(movies.length === 0) {
     <div class="flex justify-center items-center h-32">
-      <p class="text-gray-500">Aucun utilisateur trouvé</p>
+      <p class="text-gray-500">Aucun film trouvé</p>
     </div>
     }
 
@@ -87,7 +77,7 @@
         <div>
           <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
             <button
-              (click)="getListUsers(currentPage - 1)"
+              (click)="getListMoviesByUser(currentPage - 1)"
               [disabled]="currentPage <= 1"
               class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
@@ -102,7 +92,7 @@
             </span>
 
             <button
-              (click)="getListUsers(currentPage + 1)"
+              (click)="getListMoviesByUser(currentPage + 1)"
               [disabled]="currentPage >= totalPage"
               class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >

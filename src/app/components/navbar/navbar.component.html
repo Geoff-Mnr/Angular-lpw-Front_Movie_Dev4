@@ -8,7 +8,7 @@
         <div class="flex gap-6">
           <a routerLink="/movies" routerLinkActive="active" class="text-white text-sm font-medium">Films</a>
           <a routerLink="/directors" routerLinkActive="active" class="text-white text-sm font-medium">Réalisateurs</a>
-          @if (isAdmin){
+          @if (isAdmin === true){
           <a routerLink="/all-movies" routerLinkActive="active" class="text-white text-sm font-medium">Tous les films</a>
           <a routerLink="/users" routerLinkActive="active" class="text-white text-sm font-medium">Utilisateurs</a>
           }

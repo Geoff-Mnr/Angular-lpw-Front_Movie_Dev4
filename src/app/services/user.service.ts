@@ -31,4 +31,8 @@ export class UserService {
   isActif(id: number): Observable<any> {
     return this.http.put<User>(`${this.baseUri}/users/${id}`, { is_active: 0 });
   }
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUri}/users/${id}`);
+  }
 }

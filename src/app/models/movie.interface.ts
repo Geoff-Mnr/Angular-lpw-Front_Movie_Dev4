@@ -9,5 +9,8 @@ export interface Movie {
   synopsis: string;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface MovieWithCreator extends Movie {
   created_by: string;
 }
