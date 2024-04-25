@@ -32,6 +32,7 @@ export class ListAllMoviesComponent implements OnDestroy {
   itemsPerPage = 10;
   search: string = "";
 
+  /* Permet de récupérer les films */
   ngOnInit() {
     const savedItemsPerPage = localStorage.getItem("itemsPerPage");
     if (savedItemsPerPage) {
@@ -39,12 +40,12 @@ export class ListAllMoviesComponent implements OnDestroy {
     }
     this.getListMovies();
   }
-  //search method to search for a movie
+  /* Methode de recherche de film */
   searchMovie() {
     this.getListMovies(this.currentPage);
     console.log(this.search);
   }
-  /*Methode pour afficher le formulaire d'ajout*/
+  /* Methode pour afficher le formulaire d'ajout */
   getListMovies(page: number = 1) {
     console.log(page, this.itemsPerPage, this.search);
     this.subDelete = this.movieService.listAllMovies(page, this.itemsPerPage, this.search).subscribe({
@@ -67,11 +68,13 @@ export class ListAllMoviesComponent implements OnDestroy {
     });
   }
 
+  /* Methode pour mettre en local storage le nombre d'item par page */
   onItemsPerPageChange() {
     localStorage.setItem("itemsPerPage", this.itemsPerPage.toString());
     this.getListMovies();
   }
 
+  /* Methode pour se désinscrire */
   ngOnDestroy(): void {
     if (this.subDelete) {
       this.subDelete.unsubscribe();

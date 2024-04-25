@@ -1,9 +1,9 @@
 <div class="mx-auto max-w-7xl">
   <h2 class="text-xl font-bold mb-5 mt-10">Liste des Utilisateurs</h2>
 
-  <div class="flex justify-between w-full h-16">
+  <div class="flex justify-end w-full h-16">
     <div class="flex w-2/5 h-10">
-      <input [(ngModel)]="search" type="text" class="w-full border border-gray-200 py-2 px-3 text-sm rounded-l-md font-medium" placeholder="Rechercher un film, un réalisateur,..." />
+      <input [(ngModel)]="search" type="text" class="w-full border border-gray-200 py-2 px-3 text-sm rounded-l-md font-medium" placeholder="Rechercher un utilisateur,..." />
       <button (click)="searchUser()" class="bg-black text-white text-sm font-medium py-2 px-3 rounded-r-md hover:shadow-lg hover:bg-blue-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -43,7 +43,7 @@
             @if(user.is_active === 'Actif') {
             <button (click)="isActif(user)" class="bg-red-600 text-white rounded-md px-3 py-2 text-sm font-medium">Bannir</button>
             } @if (user.is_active === 'Banni') {
-            <span class="text-red-500 bg-black rounded-md px-3 py-2 text-sm font-medium">{{ user.is_active }}</span>
+            <span class="text-red-500 text-sm font-medium px-3 py-2">{{ user.is_active }}</span>
             }
           </td>
         </tr>

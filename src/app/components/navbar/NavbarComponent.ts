@@ -33,6 +33,7 @@ export class NavbarComponent {
     console.log("User logged out successfully");
   }
 
+  // Méthode pour initialiser le composant
   ngOnInit() {
     this.userService.getProfileUser().subscribe({
       next: (res) => {

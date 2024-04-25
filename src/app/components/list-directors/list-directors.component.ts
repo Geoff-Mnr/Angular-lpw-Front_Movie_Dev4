@@ -50,12 +50,12 @@ export class ListDirectorsComponent implements OnDestroy {
     this.isAdmin = this.authService.isAdmin();
   }
 
-  //search method to search for a director
+  // Methode de recherche de réalisateur
   searchDirector() {
     this.getAllDirectors(this.currentPage);
-    console.log(this.search);
   }
 
+  // Methode pour afficher les réalisateurs
   getAllDirectors(page: number = 1) {
     console.log(page, this.itemsPerPage, this.search);
     this.directorService.listDirectorsWithPagination(page, this.itemsPerPage, this.search).subscribe({
@@ -78,16 +78,18 @@ export class ListDirectorsComponent implements OnDestroy {
     });
   }
 
+  // Methode pour mettre en local storage le nombre d'item par page
   onItemsPerPageChange() {
     localStorage.setItem("itemsPerPage", this.itemsPerPage.toString());
     this.getAllDirectors();
   }
 
+  // Methode pour selectionner un réalisateur
   selectDirector(director: Director) {
     this.selectedDirector = director;
-    console.log(this.selectedDirector);
   }
 
+  // Methode pour mettre à jour un réalisateur
   updateDirector(item: Director) {
     this.subDelete = this.directorService.updateDirector(item.id, item).subscribe({
       next: () => {
@@ -102,6 +104,7 @@ export class ListDirectorsComponent implements OnDestroy {
     });
   }
 
+  // Methode pour créer un réalisateur
   createDirector(item: Director) {
     this.subDelete = this.directorService.createDirector(item).subscribe({
       next: () => {
@@ -112,11 +115,11 @@ export class ListDirectorsComponent implements OnDestroy {
       },
       error: (error) => {
         this.toaster.error("Une erreur est survenue lors de l'ajout du réalisateur");
-        console.error(error);
       },
     });
   }
 
+  // Methode pour supprimer un réalisateur
   deleteDirector(item: Director) {
     this.subDelete?.unsubscribe();
     this.subDelete = this.directorService.deleteDirector(item.id).subscribe({
@@ -130,25 +133,27 @@ export class ListDirectorsComponent implements OnDestroy {
           message = "Vous n'êtes pas autorisé à supprimer cet réalisateur";
         }
         this.toaster.error(message);
-        console.error(error);
       },
     });
   }
-
+  // Methode pour fermer le formulaire d'ajout
   private closeAddForm() {
     this.displayForm = false;
   }
 
+  // Methode pour fermer le formulaire de modification
   private closeEditForm() {
     this.selectedDirector = undefined;
   }
 
+  // Methode pour annuler une opération
   cancel() {
     this.closeAddForm();
     this.closeEditForm();
     this.toaster.info("Opération annulée");
   }
 
+  // Methode pour se désinscrire
   ngOnDestroy() {
     if (this.subDelete) {
       this.subDelete.unsubscribe();

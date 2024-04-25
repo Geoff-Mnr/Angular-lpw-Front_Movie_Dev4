@@ -23,7 +23,11 @@ import { Route } from "@angular/router";
   styleUrl: "./list-movies-by-users.component.scss",
 })
 export class ListMoviesByUsersComponent implements OnDestroy {
-  constructor(private movieService: MovieService, private router: Router, private directorService: DirectorService, private toaster: ToastrService, private route: ActivatedRoute) {}
+  movieService = inject(MovieService);
+  router = inject(Router);
+  directorService = inject(DirectorService);
+  route = inject(ActivatedRoute);
+  toaster = inject(ToastrService);
 
   selectedMovie?: Movie;
   private subDelete: Subscription | undefined;
@@ -35,6 +39,7 @@ export class ListMoviesByUsersComponent implements OnDestroy {
   itemsPerPage = 10;
   search: string = "";
 
+  // Méthode pour initialiser le composant
   ngOnInit() {
     const savedItemsPerPage = localStorage.getItem("itemsPerPage");
     if (savedItemsPerPage) {
@@ -43,20 +48,18 @@ export class ListMoviesByUsersComponent implements OnDestroy {
     this.getListMoviesByUser();
   }
 
+  // Méthode de recherche de film
   searchMovie() {
     this.getListMoviesByUser(this.currentPage);
     console.log(this.search);
   }
 
+  // Méthode pour afficher les films
   getListMoviesByUser(page: number = 1) {
     const userId = Number(this.route.snapshot.paramMap.get("id")); // Récupérer l'ID de l'utilisateur à partir de l'URL
     this.subDelete = this.movieService.listMoviesByUserId(userId, page, this.itemsPerPage, this.search).subscribe({
       next: (response) => {
-        console.log(response.data.data);
-        // Mise à jour de l'état du composant avec les données reçues
         this.movies = response.data.data;
-
-        console.log(this.movies);
         this.totalItems = response.data.total;
         this.totalPage = response.data.last_page;
 
@@ -71,11 +74,13 @@ export class ListMoviesByUsersComponent implements OnDestroy {
     });
   }
 
+  // Méthode pour changer le nombre d'éléments par page
   onItemsPerPageChange() {
     localStorage.setItem("itemsPerPage", this.itemsPerPage.toString());
     this.getListMoviesByUser();
   }
 
+  // Méthode pour se désinscrire
   ngOnDestroy() {
     if (this.subDelete) {
       this.subDelete.unsubscribe();

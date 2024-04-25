@@ -72,11 +72,13 @@ export class AddEditFormComponent {
     return JSON.parse(JSON.stringify(value));
   }
 
+  /* permet d'ajouter un film */
   addMovie() {
     console.log(this.form);
     this.addEmitter.emit(this.selectedMovie);
   }
 
+  /* permet de fermer le formulaire */
   closeForm() {
     this.closeEmitter.emit();
   }
@@ -85,5 +87,10 @@ export class AddEditFormComponent {
   editMovie() {
     const movie = this.clone(this.selectedMovie);
     this.editEmitter.emit(movie);
+  }
+
+  get selectedDirectorName() {
+    const director = this.directors.find((d) => d.id === this.selectedMovie.director_id);
+    return director ? director.name : "";
   }
 }

@@ -40,6 +40,7 @@ export class ListMoviesComponent implements OnDestroy {
 
   displayForm = false;
 
+  // Méthode pour initialiser le composant
   ngOnInit() {
     const savedItemsPerPage = localStorage.getItem("itemsPerPage");
     if (savedItemsPerPage) {
@@ -48,13 +49,13 @@ export class ListMoviesComponent implements OnDestroy {
     this.getAllMovies();
   }
 
-  //search method to search for a movie
+  // Méthode de recherche de film
   searchMovie() {
     this.getAllMovies(this.currentPage);
     console.log(this.search);
   }
 
-  /*Methode pour afficher le formulaire d'ajout*/
+  // Méthode pour afficher les films
   getAllMovies(page: number = 1) {
     console.log(page, this.itemsPerPage, this.search);
     this.subDelete = this.movieService.listMoviesByUser(page, this.itemsPerPage, this.search).subscribe({
@@ -76,6 +77,7 @@ export class ListMoviesComponent implements OnDestroy {
     });
   }
 
+  // Méthode pour changer le nombre d'éléments par page
   onItemsPerPageChange() {
     localStorage.setItem("itemsPerPage", this.itemsPerPage.toString());
     this.getAllMovies();
@@ -134,6 +136,7 @@ export class ListMoviesComponent implements OnDestroy {
     });
   }
 
+  // Méthode pour fermer le formulaire d'ajout
   private closeAddForm() {
     this.displayForm = false;
   }
